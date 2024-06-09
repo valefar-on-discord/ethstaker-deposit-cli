@@ -3,9 +3,8 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title></title>
-                        <base href="/">
-        
+        <title>Quick Setup</title>
+                
 
         <!-- Custom HTML head -->
         
@@ -83,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="landing.html"><strong aria-hidden="true">1.</strong> Ethstaker Deposit CLI</a></li><li class="chapter-item expanded "><a href="quick_setup.html"><strong aria-hidden="true">2.</strong> Quick Setup</a></li><li class="chapter-item expanded "><a href="new_mnemonic.html"><strong aria-hidden="true">3.</strong> New Mnemonic</a></li><li class="chapter-item expanded "><a href="existing_mnemonic.html"><strong aria-hidden="true">4.</strong> Existing Mnemonic</a></li><li class="chapter-item expanded "><a href="generate_bls_to_execution_change.html"><strong aria-hidden="true">5.</strong> Generate BLS to Execution Change</a></li><li class="chapter-item expanded "><a href="exit_transaction_keystore.html"><strong aria-hidden="true">6.</strong> Exit Transaction Keystore</a></li><li class="chapter-item expanded "><a href="exit_transaction_mnemonic.html"><strong aria-hidden="true">7.</strong> Exit Transaction Mnemonic</a></li><li class="chapter-item expanded "><a href="local_development.html"><strong aria-hidden="true">8.</strong> Local Development</a></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="landing.html"><strong aria-hidden="true">1.</strong> Ethstaker Deposit CLI</a></li><li class="chapter-item expanded "><a href="quick_setup.html" class="active"><strong aria-hidden="true">2.</strong> Quick Setup</a></li><li class="chapter-item expanded "><a href="new_mnemonic.html"><strong aria-hidden="true">3.</strong> New Mnemonic</a></li><li class="chapter-item expanded "><a href="existing_mnemonic.html"><strong aria-hidden="true">4.</strong> Existing Mnemonic</a></li><li class="chapter-item expanded "><a href="generate_bls_to_execution_change.html"><strong aria-hidden="true">5.</strong> Generate BLS to Execution Change</a></li><li class="chapter-item expanded "><a href="exit_transaction_keystore.html"><strong aria-hidden="true">6.</strong> Exit Transaction Keystore</a></li><li class="chapter-item expanded "><a href="exit_transaction_mnemonic.html"><strong aria-hidden="true">7.</strong> Exit Transaction Mnemonic</a></li><li class="chapter-item expanded "><a href="local_development.html"><strong aria-hidden="true">8.</strong> Local Development</a></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -144,14 +143,81 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="document-not-found-404"><a class="header" href="#document-not-found-404">Document not found (404)</a></h1>
-<p>This URL is invalid, sorry. Please use the navigation bar or search to continue.</p>
+                        <h1 id="quick-setup"><a class="header" href="#quick-setup">Quick Setup</a></h1>
+<p>This guide will walk you through the steps to download and set up the <code>ethstaker-deposit-cli</code> for your operating system.</p>
+<h2 id="step-1-download-the-latest-release"><a class="header" href="#step-1-download-the-latest-release">Step 1: Download the Latest Release</a></h2>
+<ol>
+<li>
+<p>Navigate to the <a href="https://github.com/eth-educators/ethstaker-deposit-cli/releases">Releases page</a> of the <code>ethstaker-deposit-cli</code> repository.</p>
+</li>
+<li>
+<p>Download the corresponding file for your operating system:</p>
+<ul>
+<li><strong>Windows</strong>: Look for a file with <code>windows</code> in the name.</li>
+<li><strong>MacOS</strong>: Look for a file with <code>darwin</code> in the name.</li>
+<li><strong>Linux</strong>: Look for a file with <code>linux</code> in the name.</li>
+</ul>
+</li>
+<li>
+<p>Extract the contents of the zipped file</p>
+</li>
+<li>
+<p>Open a terminal or command prompt and navigate to the extracted folder</p>
+</li>
+</ol>
+<h2 id="step-2-verify-the-installation"><a class="header" href="#step-2-verify-the-installation">Step 2: Verify the Installation</a></h2>
+<ol>
+<li>
+<p>Make sure you have GPG installed.</p>
+</li>
+<li>
+<p>Make sure you have the <code>edc-security@ethstaker.cc</code> public key by running</p>
+</li>
+</ol>
+<pre><code class="language-sh">gpg --keyserver keys.openpgp.org --search-keys 'edc-security@ethstaker.cc'
+</code></pre>
+<ol start="3">
+<li>Verify the signature file against the corresponding file but be sure to replace the contents with the exact file name:</li>
+</ol>
+<pre><code class="language-sh">gpg --verify staking_deposit-cli-***.asc staking_deposit-cli-***
+</code></pre>
+<ol start="4">
+<li>You should see <code>Good signature from &quot;EDC Security &lt;edc-security@ethstaker.cc&gt;&quot;</code> in the output <strong>otherwise do not continue</strong>.</li>
+</ol>
+<h2 id="step-3-usage"><a class="header" href="#step-3-usage">Step 3: Usage</a></h2>
+<p><strong>MacOS users:</strong> In order to run from the terminal, you must first open the file to bypass MacOS code signing issues. Do so by right clicking the <code>deposit</code> file and then selecting <code>Open</code>.</p>
+<p>Determine which command best suites what you would like to accomplish:</p>
+<ul>
+<li>
+<p><strong><a href="new_mnemonic.html">new-mnemonic</a></strong>: Used to generate a new mnemonic, validator keys, and deposit file. It is not recommended to use this command if you have existing validators.</p>
+</li>
+<li>
+<p><strong><a href="existing_mnemonic.html">existing-mnemonic</a></strong>: Provide a mnemonic to regenerate validator keys or create new ones.</p>
+</li>
+<li>
+<p><strong><a href="generate_bls_to_execution_change.html">generate-bls-to-execution-change</a></strong>: Update your withdrawal credentials of existing validators. It is <strong>required</strong> to have the corresponding mnemonic.</p>
+</li>
+<li>
+<p><strong><a href="exit_transaction_keystore.html">exit-transaction-keystore</a></strong>: Generate an exit message using the keystore of your validators.</p>
+</li>
+<li>
+<p><strong><a href="exit_transaction_mnemonic.html">exit-transaction-mnemonic</a></strong>: Generate an exit message using the mnemonic of your validators.</p>
+</li>
+</ul>
+<hr />
+<p>If you encounter any issues, please check the <a href="https://github.com/eth-educators/ethstaker-deposit-cli/issues">issues page</a> for help or to report a problem. You may also contact us on the <a href="https://dsc.gg/ethstaker">Ethstaker discord</a>.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="landing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
                         
+                                                    <a rel="next" href="new_mnemonic.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
                         
                         <div style="clear: both"></div>
                     </nav>
@@ -159,7 +225,13 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="landing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
                 
+                                    <a rel="next" href="new_mnemonic.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
                             </nav>
 
         </div>
