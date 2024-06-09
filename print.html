@@ -162,6 +162,22 @@
 </ul>
 <h2 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h2>
 <p>If you want to start creating validator keys, please follow the <a href="quick_setup.html">Quick Setup Instructions</a> or if you would like to run locally, view the <a href="local_development.html">Local Development Instructions</a>.</p>
+<p>The general usage of the CLI is:</p>
+<pre><code class="language-sh">./deposit [OPTIONS] COMMAND [ARGS]
+</code></pre>
+<h2 id="command-options"><a class="header" href="#command-options">Command Options</a></h2>
+<p>Each CLI command has a number of command options that can be provided:</p>
+<ul>
+<li>
+<p><strong>--language</strong>: The language you wish to use the CLI in. Options: العربية, ελληνικά, English, Français, Bahasa melayu, Italiano, 日本語, 한국어, Português do Brasil, român, 简体中文. Default to English.</p>
+</li>
+<li>
+<p><strong>--non_interactive</strong>: Run CLI in non-interactive mode. This will skip all confirmation and internet connectivity checks.</p>
+</li>
+<li>
+<p><strong>--ignore_connectivity</strong>: Skip internet connectivity check and warning.</p>
+</li>
+</ul>
 <h2 id="commands"><a class="header" href="#commands">Commands</a></h2>
 <p><strong>You are not required to specify each argument when executing the command. We will prompt you for each argument for security purposes.</strong></p>
 <p>If there is a specific command you would like to understand more, please choose from the following list:</p>
@@ -228,6 +244,7 @@
 <li>You should see <code>Good signature from &quot;EDC Security &lt;edc-security@ethstaker.cc&gt;&quot;</code> in the output <strong>otherwise do not continue</strong>.</li>
 </ol>
 <h2 id="step-3-usage"><a class="header" href="#step-3-usage">Step 3: Usage</a></h2>
+<p><strong>Windows users:</strong> You should replace <code>./deposit</code> with <code>deposit.exe</code> to run properly.</p>
 <p><strong>MacOS users:</strong> In order to run from the terminal, you must first open the file to bypass MacOS code signing issues. Do so by right clicking the <code>deposit</code> file and then selecting <code>Open</code>.</p>
 <p>Determine which command best suites what you would like to accomplish:</p>
 <ul>
@@ -252,7 +269,7 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="new-mnemonic"><a class="header" href="#new-mnemonic">new-mnemonic</a></h1>
 <h2 id="description"><a class="header" href="#description">Description</a></h2>
 <p>Generates a new BIP-39 mnemonic along with validator keystore and deposit files depending on how many validators you wish to create.</p>
-<h2 id="arguments"><a class="header" href="#arguments">Arguments</a></h2>
+<h2 id="optional-arguments"><a class="header" href="#optional-arguments">Optional Arguments</a></h2>
 <ul>
 <li>
 <p><strong><code>--mnemonic_language</code></strong>: The language of the BIP-39 mnemonic. Options are: 'chinese_simplified', 'chinese_traditional', 'czech', 'english', 'french', 'italian', 'japanese', 'korean', 'portuguese', 'spanish'.</p>
@@ -282,7 +299,7 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="existing-mnemonic"><a class="header" href="#existing-mnemonic">existing-mnemonic</a></h1>
 <h2 id="description-1"><a class="header" href="#description-1">Description</a></h2>
 <p>Uses an existing BIP-39 mnemonic phrase for key generation.</p>
-<h2 id="arguments-1"><a class="header" href="#arguments-1">Arguments</a></h2>
+<h2 id="optional-arguments-1"><a class="header" href="#optional-arguments-1">Optional Arguments</a></h2>
 <ul>
 <li>
 <p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'holesky', etc...</p>
@@ -318,7 +335,7 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="generate-bls-to-execution-change"><a class="header" href="#generate-bls-to-execution-change">generate-bls-to-execution-change</a></h1>
 <h2 id="description-2"><a class="header" href="#description-2">Description</a></h2>
 <p>Generates a BLS to execution address change message.</p>
-<h2 id="arguments-2"><a class="header" href="#arguments-2">Arguments</a></h2>
+<h2 id="optional-arguments-2"><a class="header" href="#optional-arguments-2">Optional Arguments</a></h2>
 <ul>
 <li>
 <p><strong><code>--bls_to_execution_changes_folder</code></strong>: The path to store the change JSON file.</p>
@@ -354,7 +371,7 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="exit-transaction-keystore"><a class="header" href="#exit-transaction-keystore">exit-transaction-keystore</a></h1>
 <h2 id="description-3"><a class="header" href="#description-3">Description</a></h2>
 <p>Creates an exit transaction using a keystore file.</p>
-<h2 id="arguments-3"><a class="header" href="#arguments-3">Arguments</a></h2>
+<h2 id="optional-arguments-3"><a class="header" href="#optional-arguments-3">Optional Arguments</a></h2>
 <ul>
 <li>
 <p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'holesky', etc.</p>
@@ -381,7 +398,7 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="exit-transaction-mnemonic"><a class="header" href="#exit-transaction-mnemonic">exit-transaction-mnemonic</a></h1>
 <h2 id="description-4"><a class="header" href="#description-4">Description</a></h2>
 <p>Creates an exit transaction using a mnemonic phrase.</p>
-<h2 id="arguments-4"><a class="header" href="#arguments-4">Arguments</a></h2>
+<h2 id="optional-arguments-4"><a class="header" href="#optional-arguments-4">Optional Arguments</a></h2>
 <ul>
 <li>
 <p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'holesky', etc.</p>
