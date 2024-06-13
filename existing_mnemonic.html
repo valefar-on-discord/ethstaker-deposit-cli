@@ -144,6 +144,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="existing-mnemonic"><a class="header" href="#existing-mnemonic">existing-mnemonic</a></h1>
+<div class="warning">
+Including sensitive arguments when executing CLI commands poses a security risk, as these values can be accessible through disk and shell history. This exposure can allow other users, including admins and malicious actors, to gain access to sensitive information, putting your funds at risk.
+</div>
 <h2 id="description"><a class="header" href="#description">Description</a></h2>
 <p>Uses an existing BIP-39 mnemonic phrase for key generation.</p>
 <h2 id="optional-arguments"><a class="header" href="#optional-arguments">Optional Arguments</a></h2>
@@ -152,25 +155,25 @@
 <p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'holesky', etc...</p>
 </li>
 <li>
-<p><strong><code>--mnemonic</code></strong>: The mnemonic you used to create withdrawal credentials.</p>
+<p><strong><code>--mnemonic</code></strong>: The mnemonic you used to create withdrawal credentials. <span class="warning"></span></p>
 </li>
 <li>
-<p><strong><code>--mnemonic_password</code></strong>: The mnemonic password you used in your key generation. Note: It's not the keystore password.</p>
+<p><strong><code>--mnemonic_password</code></strong>: The mnemonic password you used in your key generation. Note: It's not the keystore password. <span class="warning"></span></p>
 </li>
 <li>
-<p><strong><code>--validator_start_index</code></strong>: The index of the first validator's keys you wish to generate. If this is your first time generating keys with this mnemonic, use 0. If you have generated keys using this mnemonic before, use the next index from which you want to start generating keys from (eg, if you've generated 4 keys before (keys #0, #1, #2, #3), then enter 4 here.</p>
+<p><strong><code>--validator_start_index</code></strong>: The index of the first validator's keys you wish to generate. If this is your first time generating keys with this mnemonic, use 0. If you have generated keys using this mnemonic before, use the next index from which you want to start generating keys from. As an example if you've generated 4 keys before (keys #0, #1, #2, #3), then enter 4 here.</p>
 </li>
 <li>
 <p><strong><code>--num_validators</code></strong>: Number of validators to create.</p>
 </li>
 <li>
-<p><strong><code>--keystore_password</code></strong>: The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password.</p>
+<p><strong><code>--keystore_password</code></strong>: The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. <span class="warning"></span></p>
 </li>
 <li>
-<p><strong><code>--execution_address</code></strong>: The Ethereum 1 address for validator withdrawals.</p>
+<p><strong><code>--execution_address</code></strong>: The Ethereum execution address for validator withdrawals.</p>
 </li>
 <li>
-<p><strong><code>--pbkdf2</code></strong>: Will use pbkdf2 key derivation instead of scrypt for generated keystore files as defined in <a href="https://eips.ethereum.org/EIPS/eip-2335#decryption-key">EIP-2335</a>. This can be a good alternative if you intend to work with a large number of keys.</p>
+<p><strong><code>--pbkdf2</code></strong>: Will use pbkdf2 key derivation instead of scrypt for generated keystore files as defined in <a href="https://eips.ethereum.org/EIPS/eip-2335#decryption-key">EIP-2335</a>. This can be a good alternative if you intend to work with a large number of keys, as it can improve performance however it is less secure. You should only use this option if you understand the associated risks and have familiarity with encryption.</p>
 </li>
 <li>
 <p><strong><code>--folder</code></strong>: The folder where keystore and deposit data files will be saved.</p>

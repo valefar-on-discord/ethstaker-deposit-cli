@@ -149,8 +149,8 @@
 <p>Ensure you have the following software installed on your system:</p>
 <ul>
 <li><strong>Git</strong>: Version control system to clone the repository. <a href="https://git-scm.com/downloads">Download Git</a></li>
-<li><strong>Python 3.12+</strong>: The programming language required to run the tool. <a href="https://www.python.org/downloads/">Download Python</a></li>
-<li><strong>pip</strong>: Package installer for Python, which is included with Python 3.12+.</li>
+<li><strong>Python 3.9+</strong>: The programming language required to run the tool. <a href="https://www.python.org/downloads/">Download Python</a></li>
+<li><strong>pip</strong>: Package installer for Python, which is included with Python 3.9+.</li>
 </ul>
 <h2 id="local-development-steps"><a class="header" href="#local-development-steps">Local Development Steps</a></h2>
 <ol>
@@ -162,6 +162,13 @@
 <li>
 <p><strong>Navigate to the Project Directory</strong></p>
 <pre><code class="language-sh">cd ethstaker-deposit-cli
+</code></pre>
+</li>
+<li>
+<p><strong>Setup virtualenv (optional)</strong></p>
+<pre><code class="language-sh">pip3 install virtualenv
+virtualenv venv
+.\venv\Scripts\activate
 </code></pre>
 </li>
 <li>

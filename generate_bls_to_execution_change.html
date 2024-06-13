@@ -144,6 +144,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="generate-bls-to-execution-change"><a class="header" href="#generate-bls-to-execution-change">generate-bls-to-execution-change</a></h1>
+<div class="warning">
+Including sensitive arguments when executing CLI commands poses a security risk, as these values can be accessible through disk and shell history. This exposure can allow other users, including admins and malicious actors, to gain access to sensitive information, putting your funds at risk.
+</div>
 <h2 id="description"><a class="header" href="#description">Description</a></h2>
 <p>Generates a BLS to execution address change message.</p>
 <h2 id="optional-arguments"><a class="header" href="#optional-arguments">Optional Arguments</a></h2>
@@ -155,10 +158,10 @@
 <p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'holesky', etc.</p>
 </li>
 <li>
-<p><strong><code>--mnemonic</code></strong>: The mnemonic you used to create withdrawal credentials.</p>
+<p><strong><code>--mnemonic</code></strong>: The mnemonic you used to create withdrawal credentials. <span class="warning"></span></p>
 </li>
 <li>
-<p><strong><code>--mnemonic_password</code></strong>: The mnemonic password you used in your key generation. Note: It's not the keystore password.</p>
+<p><strong><code>--mnemonic_password</code></strong>: The mnemonic password you used in your key generation. Note: It's not the keystore password. <span class="warning"></span></p>
 </li>
 <li>
 <p><strong><code>--validator_start_index</code></strong>: The index position for the keys to start generating withdrawal credentials for.</p>
@@ -170,7 +173,7 @@
 <p><strong><code>--bls_withdrawal_credentials_list</code></strong>: A list of the old BLS withdrawal credentials of the given validator(s). It is for confirming you are using the correct keys. Split multiple items with whitespaces or commas.</p>
 </li>
 <li>
-<p><strong><code>--execution_address</code></strong>: If this field is set and valid, the given Eth1 address will be used to create the withdrawal credentials. Otherwise, it will generate withdrawal credentials with the mnemonic-derived withdrawal public key.</p>
+<p><strong><code>--execution_address</code></strong>: If this field is set and valid, the given Ethereum execution address will be used to create the withdrawal credentials. Otherwise it will generate withdrawal credentials with the mnemonic-derived withdrawal public key.</p>
 </li>
 <li>
 <p><strong><code>--devnet_chain_setting</code></strong>: The custom chain setting of a devnet or testnet. Note that it will override your <code>--chain</code> choice.</p>
