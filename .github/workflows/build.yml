@@ -95,11 +95,13 @@ jobs:
         env:
           GPG_KEY_ID: ${{ steps.import-gpg-key.outputs.fingerprint }}
         run: |
-          tar -zcvf ${BUILD_FILE_NAME}.tar.gz ./${BUILD_FILE_NAME}
+          export ARCHIVE_FILE_NAME=${BUILD_FILE_NAME}.tar.gz
+          echo "ARCHIVE_FILE_NAME=${ARCHIVE_FILE_NAME}" >> "$GITHUB_ENV"
+          tar -zcvf ${ARCHIVE_FILE_NAME} ./${BUILD_FILE_NAME}
           mkdir -p output/artifacts
-          cp ${BUILD_FILE_NAME}.tar.gz output/artifacts
-          sha256sum ${BUILD_FILE_NAME}.tar.gz | head -c 64 > output/artifacts/${BUILD_FILE_NAME}.sha256
-          gpg --default-key ${GPG_KEY_ID} --sign --armor --output output/artifacts/${BUILD_FILE_NAME}.tar.gz.asc --detach-sig ${BUILD_FILE_NAME}.tar.gz
+          cp ${ARCHIVE_FILE_NAME} output/artifacts
+          sha256sum ${ARCHIVE_FILE_NAME} | head -c 64 > output/artifacts/${ARCHIVE_FILE_NAME}.sha256
+          gpg --default-key ${GPG_KEY_ID} --sign --armor --output output/artifacts/${ARCHIVE_FILE_NAME}.asc --detach-sig ${ARCHIVE_FILE_NAME}
       - name: Create archive, checksum and GPG signature (Windows)
         if: ${{ startsWith(matrix.os, 'windows-') }}
         env:
@@ -110,7 +112,7 @@ jobs:
           Compress-Archive -Path $env:BUILD_FILE_NAME_PATH -DestinationPath $env:ZIP_FILE_NAME
           mkdir output\artifacts
           copy $env:ZIP_FILE_NAME output\artifacts
-          $env:CHECKSUM_FILE_NAME_PATH = ("output\artifacts\" + $env:BUILD_FILE_NAME + ".sha256")
+          $env:CHECKSUM_FILE_NAME_PATH = ("output\artifacts\" + $env:ZIP_FILE_NAME + ".sha256")
           certUtil -hashfile $env:ZIP_FILE_NAME SHA256 | findstr /i /v "SHA256" | findstr /i /v "CertUtil" > $env:CHECKSUM_FILE_NAME_PATH
           $env:SIGNATURE_FILE_NAME_PATH = ("output\artifacts\" + $env:ZIP_FILE_NAME + ".asc")
           gpg --default-key $env:GPG_KEY_ID --sign --armor --output $env:SIGNATURE_FILE_NAME_PATH --detach-sig $env:ZIP_FILE_NAME
