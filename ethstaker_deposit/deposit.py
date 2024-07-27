@@ -8,6 +8,7 @@ from ethstaker_deposit.cli.existing_mnemonic import existing_mnemonic
 from ethstaker_deposit.cli.exit_transaction_keystore import exit_transaction_keystore
 from ethstaker_deposit.cli.exit_transaction_mnemonic import exit_transaction_mnemonic
 from ethstaker_deposit.cli.generate_bls_to_execution_change import generate_bls_to_execution_change
+from ethstaker_deposit.cli.generate_bls_to_execution_change_keystore import generate_bls_to_execution_change_keystore
 from ethstaker_deposit.cli.new_mnemonic import new_mnemonic
 from ethstaker_deposit.cli.partial_deposit import partial_deposit
 from ethstaker_deposit.exceptions import ValidationError
@@ -53,6 +54,7 @@ commands = [
     new_mnemonic,
     existing_mnemonic,
     generate_bls_to_execution_change,
+    generate_bls_to_execution_change_keystore,
     exit_transaction_keystore,
     exit_transaction_mnemonic,
     partial_deposit,

@@ -11,6 +11,7 @@ ZERO_BYTES32 = b'\x00' * 32
 DOMAIN_DEPOSIT = bytes.fromhex('03000000')
 DOMAIN_VOLUNTARY_EXIT = bytes.fromhex('04000000')
 DOMAIN_BLS_TO_EXECUTION_CHANGE = bytes.fromhex('0A000000')
+DOMAIN_BLS_TO_EXECUTION_CHANGE_KEYSTORE = bytes.fromhex('0B000000')
 BLS_WITHDRAWAL_PREFIX = bytes.fromhex('00')
 EXECUTION_ADDRESS_WITHDRAWAL_PREFIX = bytes.fromhex('01')
 COMPOUNDING_WITHDRAWAL_PREFIX = bytes.fromhex('02')
@@ -26,6 +27,7 @@ GWEI_DEPOSIT_LIMIT = 2**64 - 1
 WORD_LISTS_PATH = os.path.join('ethstaker_deposit', 'key_handling', 'key_derivation', 'word_lists')
 DEFAULT_VALIDATOR_KEYS_FOLDER_NAME = 'validator_keys'
 DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME = 'bls_to_execution_changes'
+DEFAULT_BLS_TO_EXECUTION_CHANGES_KEYSTORE_FOLDER_NAME = 'bls_to_execution_changes_keystore'
 DEFAULT_EXIT_TRANSACTION_FOLDER_NAME = 'exit_transactions'
 DEFAULT_PARTIAL_DEPOSIT_FOLDER_NAME = 'partial_deposits'
 

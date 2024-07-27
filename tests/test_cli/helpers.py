@@ -4,6 +4,7 @@ import os
 from ethstaker_deposit.key_handling.keystore import Keystore
 from ethstaker_deposit.utils.constants import (
     DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME,
+    DEFAULT_BLS_TO_EXECUTION_CHANGES_KEYSTORE_FOLDER_NAME,
     DEFAULT_EXIT_TRANSACTION_FOLDER_NAME,
     DEFAULT_PARTIAL_DEPOSIT_FOLDER_NAME,
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
@@ -22,6 +23,11 @@ def clean_partial_deposit_folder(my_folder_path: str) -> None:
 
 def clean_btec_folder(my_folder_path: str) -> None:
     sub_folder_path = os.path.join(my_folder_path, DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME)
+    clean_folder(my_folder_path, sub_folder_path)
+
+
+def clean_btec_keystore_folder(my_folder_path: str) -> None:
+    sub_folder_path = os.path.join(my_folder_path, DEFAULT_BLS_TO_EXECUTION_CHANGES_KEYSTORE_FOLDER_NAME)
     clean_folder(my_folder_path, sub_folder_path)
 
 

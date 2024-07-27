@@ -38,10 +38,6 @@ from ethstaker_deposit.settings import (
 )
 
 
-def get_password(text: str) -> str:
-    return click.prompt(text, hide_input=True, show_default=False, type=str)
-
-
 def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[..., Any]:
     '''
     This is a decorator that, when applied to a parent-command, implements the
