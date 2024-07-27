@@ -17,8 +17,10 @@ from ethstaker_deposit.key_handling.keystore import Keystore
 from ethstaker_deposit.utils.intl import load_text
 from ethstaker_deposit.utils.ssz import (
     BLSToExecutionChange,
+    BLSToExecutionChangeKeystore,
     DepositData,
     DepositMessage,
+    SignedBLSToExecutionChangeKeystore,
     SignedVoluntaryExit,
     VoluntaryExit,
     compute_bls_to_execution_change_domain,
@@ -333,6 +335,35 @@ def validate_signed_exit(validator_index: str,
     bls_signature = BLSSignature(decode_hex(signature))
     message = VoluntaryExit(  # type: ignore[no-untyped-call]
         epoch=int(epoch),
+        validator_index=int(validator_index)
+    )
+
+    domain = compute_voluntary_exit_domain(
+        fork_version=chain_settings.EXIT_FORK_VERSION,
+        genesis_validators_root=chain_settings.GENESIS_VALIDATORS_ROOT
+    )
+
+    signing_root = compute_signing_root(message, domain)
+    return bls.Verify(bls_pubkey, signing_root, bls_signature)
+
+
+def verify_bls_to_execution_change_keystore_json(file_folder: str, pubkey: str, chain_settings: BaseChainSetting) -> bool:
+    with open(file_folder, 'r', encoding='utf-8') as f:
+        deposit_json: SignedBLSToExecutionChangeKeystore = json.load(f)
+        signature = deposit_json["signature"]
+        message = deposit_json["message"]
+        return validate_bls_to_execution_change_keystore(message["validator_index"], message["to_execution_address"], signature, pubkey, chain_settings)
+
+
+def validate_bls_to_execution_change_keystore(validator_index: str,
+                                              to_execution_address: str,
+                                              signature: str,
+                                              pubkey: str,
+                                              chain_settings: BaseChainSetting) -> bool:
+    bls_pubkey = BLSPubkey(bytes.fromhex(pubkey))
+    bls_signature = BLSSignature(decode_hex(signature))
+    message = BLSToExecutionChangeKeystore(  # type: ignore[no-untyped-call]
+        to_execution_address=decode_hex(to_execution_address),
         validator_index=int(validator_index)
     )
 
