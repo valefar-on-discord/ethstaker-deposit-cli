@@ -368,7 +368,7 @@ def validate_bls_to_execution_change_keystore(validator_index: str,
     )
 
     domain = compute_voluntary_exit_domain(
-        fork_version=chain_settings.EXIT_FORK_VERSION,
+        fork_version=chain_settings.GENESIS_FORK_VERSION,
         genesis_validators_root=chain_settings.GENESIS_VALIDATORS_ROOT
     )
 

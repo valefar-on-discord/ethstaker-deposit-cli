@@ -47,7 +47,7 @@ def export_bls_to_execution_change_keystore_json(folder: str, signed_bls_to_exec
     signed_bls_to_execution_change_keystore_json: Dict[str, Any] = {}
     message = {
         'to_execution_address': '0x' + signed_bls_to_execution_change_keystore.message.to_execution_address.hex(),  # type: ignore[attr-defined]
-        'validator_index': str(signed_bls_to_execution_change_keystore.message.validator_index),  # type: ignore[attr-defined]
+        'validator_index': signed_bls_to_execution_change_keystore.message.validator_index,  # type: ignore[attr-defined]
     }
     signed_bls_to_execution_change_keystore_json.update({'message': message})
     signed_bls_to_execution_change_keystore_json.update({'signature': '0x' + signed_bls_to_execution_change_keystore.signature.hex()})  # type: ignore[attr-defined]
