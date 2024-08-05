@@ -9,6 +9,7 @@ from ssz import (
 )
 from ethstaker_deposit.utils.constants import (
     DOMAIN_BLS_TO_EXECUTION_CHANGE,
+    DOMAIN_BLS_TO_EXECUTION_CHANGE_KEYSTORE,
     DOMAIN_DEPOSIT,
     DOMAIN_VOLUNTARY_EXIT,
     ZERO_BYTES32,
@@ -79,6 +80,17 @@ def compute_bls_to_execution_change_domain(fork_version: bytes, genesis_validato
     return domain_type + fork_data_root[:28]
 
 
+def compute_bls_to_execution_change_keystore_domain(fork_version: bytes, genesis_validators_root: bytes) -> bytes:
+    """
+    VOLUNTARY_EXIT-only `compute_domain`
+    """
+    if len(fork_version) != 4:
+        raise ValueError(f"Fork version should be in 4 bytes. Got {len(fork_version)}.")
+    domain_type = DOMAIN_BLS_TO_EXECUTION_CHANGE_KEYSTORE
+    fork_data_root = compute_fork_data_root(fork_version, genesis_validators_root)
+    return domain_type + fork_data_root[:28]
+
+
 def compute_deposit_fork_data_root(current_version: bytes) -> bytes:
     """
     Return the appropriate ForkData root for a given deposit version.
@@ -142,6 +154,26 @@ class SignedBLSToExecutionChange(Serializable):
     """
     fields = [
         ('message', BLSToExecutionChange),
+        ('signature', bytes96),
+    ]
+
+
+class BLSToExecutionChangeKeystore(Serializable):
+    """
+    Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#blstoexecutionchange
+    """
+    fields = [
+        ('validator_index', uint64),
+        ('to_execution_address', bytes20),
+    ]
+
+
+class SignedBLSToExecutionChangeKeystore(Serializable):
+    """
+    Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#signedblstoexecutionchange
+    """
+    fields = [
+        ('message', BLSToExecutionChangeKeystore),
         ('signature', bytes96),
     ]
 
