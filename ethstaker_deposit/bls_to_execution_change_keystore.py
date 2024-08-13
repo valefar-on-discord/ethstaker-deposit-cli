@@ -43,21 +43,25 @@ def bls_to_execution_change_keystore_generation(
     )
 
 
-def export_bls_to_execution_change_keystore_json(folder: str, signed_bls_to_execution_change_keystore: SignedBLSToExecutionChangeKeystore, timestamp: float) -> str:
+def export_bls_to_execution_change_keystore_json(folder: str,
+                                                 signed_execution_change: SignedBLSToExecutionChangeKeystore,
+                                                 timestamp: float) -> str:
     signed_bls_to_execution_change_keystore_json: Dict[str, Any] = {}
+
+    address = '0x' + signed_execution_change.message.to_execution_address.hex()  # type: ignore[attr-defined]
+    index = signed_execution_change.message.validator_index  # type: ignore[attr-defined]
+    signature = '0x' + signed_execution_change.signature.hex()  # type: ignore[attr-defined]
+
     message = {
-        'to_execution_address': '0x' + signed_bls_to_execution_change_keystore.message.to_execution_address.hex(),  # type: ignore[attr-defined]
-        'validator_index': signed_bls_to_execution_change_keystore.message.validator_index,  # type: ignore[attr-defined]
+        'to_execution_address': address,
+        'validator_index': index,
     }
     signed_bls_to_execution_change_keystore_json.update({'message': message})
-    signed_bls_to_execution_change_keystore_json.update({'signature': '0x' + signed_bls_to_execution_change_keystore.signature.hex()})  # type: ignore[attr-defined]
+    signed_bls_to_execution_change_keystore_json.update({'signature': signature})
 
     filefolder = os.path.join(
         folder,
-        'bls_to_execution_change_keystore_transaction-%s-%i.json' % (
-            signed_bls_to_execution_change_keystore.message.validator_index,  # type: ignore[attr-defined]
-            timestamp,
-        )
+        'bls_to_execution_change_keystore_transaction-%s-%i.json' % (index, timestamp)
     )
 
     with open(filefolder, 'w') as f:

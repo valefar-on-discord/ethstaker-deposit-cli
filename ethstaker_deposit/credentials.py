@@ -33,11 +33,9 @@ from ethstaker_deposit.utils.ssz import (
     compute_bls_to_execution_change_domain,
     compute_signing_root,
     BLSToExecutionChange,
-    BLSToExecutionChangeKeystore,
     DepositData,
     DepositMessage,
     SignedBLSToExecutionChange,
-    SignedBLSToExecutionChangeKeystore,
 )
 
 
@@ -194,7 +192,6 @@ class Credential:
             message=message,
             signature=signature,
         )
-
 
     def get_bls_to_execution_change_dict(self, validator_index: int) -> Dict[str, bytes]:
         result_dict: Dict[str, Any] = {}

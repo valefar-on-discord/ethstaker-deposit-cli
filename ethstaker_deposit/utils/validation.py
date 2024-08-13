@@ -347,12 +347,18 @@ def validate_signed_exit(validator_index: str,
     return bls.Verify(bls_pubkey, signing_root, bls_signature)
 
 
-def verify_bls_to_execution_change_keystore_json(file_folder: str, pubkey: str, chain_settings: BaseChainSetting) -> bool:
+def verify_bls_to_execution_change_keystore_json(file_folder: str,
+                                                 pubkey: str,
+                                                 chain_settings: BaseChainSetting) -> bool:
     with open(file_folder, 'r', encoding='utf-8') as f:
         deposit_json: SignedBLSToExecutionChangeKeystore = json.load(f)
         signature = deposit_json["signature"]
         message = deposit_json["message"]
-        return validate_bls_to_execution_change_keystore(message["validator_index"], message["to_execution_address"], signature, pubkey, chain_settings)
+        return validate_bls_to_execution_change_keystore(message["validator_index"],
+                                                         message["to_execution_address"],
+                                                         signature,
+                                                         pubkey,
+                                                         chain_settings)
 
 
 def validate_bls_to_execution_change_keystore(validator_index: str,

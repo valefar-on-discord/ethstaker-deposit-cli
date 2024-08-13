@@ -1,36 +1,29 @@
 import os
 import time
 import click
-import json
-import concurrent.futures
 from typing import (
     Any,
-    Sequence,
     Dict,
     Optional
 )
 
 from eth_typing import HexAddress
 
-from ethstaker_deposit.bls_to_execution_change_keystore import bls_to_execution_change_keystore_generation, export_bls_to_execution_change_keystore_json
-from ethstaker_deposit.credentials import (
-    CredentialList,
-    Credential
+from ethstaker_deposit.bls_to_execution_change_keystore import (
+    bls_to_execution_change_keystore_generation,
+    export_bls_to_execution_change_keystore_json,
 )
+from ethstaker_deposit.credentials import Credential
 from ethstaker_deposit.key_handling.keystore import Keystore
 from ethstaker_deposit.utils.validation import (
-    validate_bls_withdrawal_credentials_list,
     validate_bls_withdrawal_credentials_matching,
     validate_withdrawal_address,
     validate_int_range,
     validate_keystore_file,
-    verify_bls_to_execution_change_json,
-    validate_validator_indices,
     verify_bls_to_execution_change_keystore_json,
 )
 from ethstaker_deposit.utils.constants import (
     DEFAULT_BLS_TO_EXECUTION_CHANGES_KEYSTORE_FOLDER_NAME,
-    MAX_DEPOSIT_AMOUNT,
 )
 from ethstaker_deposit.utils.click import (
     captive_prompt_callback,
@@ -46,7 +39,6 @@ from ethstaker_deposit.settings import (
     MAINNET,
     ALL_CHAIN_KEYS,
     get_chain_setting,
-    get_devnet_chain_setting,
 )
 
 
@@ -173,7 +165,9 @@ def generate_bls_to_execution_change_keystore(
         os.mkdir(folder)
 
     click.echo(load_text(['msg_key_creation']))
-    saved_folder = export_bls_to_execution_change_keystore_json(folder=folder, signed_bls_to_execution_change_keystore=signed_btec, timestamp=time.time())
+    saved_folder = export_bls_to_execution_change_keystore_json(folder=folder,
+                                                                signed_bls_to_execution_change_keystore=signed_btec,
+                                                                timestamp=time.time())
 
     click.echo(load_text(['msg_verify_btec']))
     if (not verify_bls_to_execution_change_keystore_json(saved_folder, keystore.pubkey, chain_settings)):
