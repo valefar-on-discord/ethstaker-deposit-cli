@@ -166,7 +166,7 @@ def generate_bls_to_execution_change_keystore(
 
     click.echo(load_text(['msg_key_creation']))
     saved_folder = export_bls_to_execution_change_keystore_json(folder=folder,
-                                                                signed_bls_to_execution_change_keystore=signed_btec,
+                                                                signed_execution_change=signed_btec,
                                                                 timestamp=time.time())
 
     click.echo(load_text(['msg_verify_btec']))
