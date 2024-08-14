@@ -1,8 +1,9 @@
 import click
 import os
 import time
-
 from typing import Any
+
+from ethstaker_deposit.exceptions import ValidationError
 from ethstaker_deposit.exit_transaction import exit_transaction_generation, export_exit_transaction_json
 from ethstaker_deposit.key_handling.keystore import Keystore
 from ethstaker_deposit.settings import (
@@ -123,7 +124,7 @@ def exit_transaction_keystore(
 
     click.echo(load_text(['msg_verify_exit_transaction']))
     if (not verify_signed_exit_json(saved_folder, keystore.pubkey, chain_settings)):
-        click.echo(['err_verify_exit_transaction'])
+        raise ValidationError(load_text(['err_verify_exit_transaction']))
 
     click.echo(load_text(['msg_creation_success']) + saved_folder)
     click.pause(load_text(['msg_pause']))

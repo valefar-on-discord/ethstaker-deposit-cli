@@ -14,6 +14,7 @@ from ethstaker_deposit.bls_to_execution_change_keystore import (
     export_bls_to_execution_change_keystore_json,
 )
 from ethstaker_deposit.credentials import Credential
+from ethstaker_deposit.exceptions import ValidationError
 from ethstaker_deposit.key_handling.keystore import Keystore
 from ethstaker_deposit.utils.validation import (
     validate_bls_withdrawal_credentials_matching,
@@ -30,7 +31,6 @@ from ethstaker_deposit.utils.click import (
     choice_prompt_func,
     jit_option,
 )
-from ethstaker_deposit.exceptions import ValidationError
 from ethstaker_deposit.utils.intl import (
     closest_match,
     load_text,
@@ -171,7 +171,7 @@ def generate_bls_to_execution_change_keystore(
 
     click.echo(load_text(['msg_verify_btec']))
     if (not verify_bls_to_execution_change_keystore_json(saved_folder, keystore.pubkey, chain_settings)):
-        click.echo(['err_verify_btec'])
+        raise ValidationError(load_text(['err_verify_btec']))
 
     click.echo(load_text(['msg_creation_success']) + saved_folder)
     click.pause(load_text(['msg_pause']))

@@ -24,6 +24,7 @@ from ethstaker_deposit.utils.ssz import (
     SignedVoluntaryExit,
     VoluntaryExit,
     compute_bls_to_execution_change_domain,
+    compute_bls_to_execution_change_keystore_domain,
     compute_deposit_domain,
     compute_signing_root,
     compute_voluntary_exit_domain,
@@ -303,7 +304,7 @@ def validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials: byt
 
 
 #
-# Exit Message Generation
+# Exit Message Validation
 #
 
 
@@ -347,6 +348,11 @@ def validate_signed_exit(validator_index: str,
     return bls.Verify(bls_pubkey, signing_root, bls_signature)
 
 
+#
+# BLS to Execution Change Keystore Validation
+#
+
+
 def verify_bls_to_execution_change_keystore_json(file_folder: str,
                                                  pubkey: str,
                                                  chain_settings: BaseChainSetting) -> bool:
@@ -373,7 +379,7 @@ def validate_bls_to_execution_change_keystore(validator_index: str,
         validator_index=int(validator_index)
     )
 
-    domain = compute_voluntary_exit_domain(
+    domain = compute_bls_to_execution_change_keystore_domain(
         fork_version=chain_settings.GENESIS_FORK_VERSION,
         genesis_validators_root=chain_settings.GENESIS_VALIDATORS_ROOT
     )
