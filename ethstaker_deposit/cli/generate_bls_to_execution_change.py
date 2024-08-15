@@ -48,10 +48,6 @@ from .existing_mnemonic import (
 )
 
 
-def get_password(text: str) -> str:
-    return click.prompt(text, hide_input=True, show_default=False, type=str)
-
-
 def _validate_credentials_match(kwargs: Dict[str, Any]) -> Optional[ValidationError]:
     credential: Credential = kwargs.pop('credential')
     bls_withdrawal_credentials: bytes = kwargs.pop('bls_withdrawal_credentials')

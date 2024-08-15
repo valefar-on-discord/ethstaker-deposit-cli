@@ -1,11 +1,7 @@
 import os
 import time
 import click
-from typing import (
-    Any,
-    Dict,
-    Optional
-)
+from typing import Any
 
 from eth_typing import HexAddress
 
@@ -13,11 +9,9 @@ from ethstaker_deposit.bls_to_execution_change_keystore import (
     bls_to_execution_change_keystore_generation,
     export_bls_to_execution_change_keystore_json,
 )
-from ethstaker_deposit.credentials import Credential
 from ethstaker_deposit.exceptions import ValidationError
 from ethstaker_deposit.key_handling.keystore import Keystore
 from ethstaker_deposit.utils.validation import (
-    validate_bls_withdrawal_credentials_matching,
     validate_withdrawal_address,
     validate_int_range,
     validate_keystore_file,
@@ -40,21 +34,6 @@ from ethstaker_deposit.settings import (
     ALL_CHAIN_KEYS,
     get_chain_setting,
 )
-
-
-def get_password(text: str) -> str:
-    return click.prompt(text, hide_input=True, show_default=False, type=str)
-
-
-def _validate_credentials_match(kwargs: Dict[str, Any]) -> Optional[ValidationError]:
-    credential: Credential = kwargs.pop('credential')
-    bls_withdrawal_credentials: bytes = kwargs.pop('bls_withdrawal_credentials')
-
-    try:
-        validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials, credential)
-    except ValidationError as e:
-        return e
-    return None
 
 
 FUNC_NAME = 'generate_bls_to_execution_change_keystore'
