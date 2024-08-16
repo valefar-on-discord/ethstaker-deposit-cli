@@ -82,7 +82,7 @@ def compute_bls_to_execution_change_domain(fork_version: bytes, genesis_validato
 
 def compute_bls_to_execution_change_keystore_domain(fork_version: bytes, genesis_validators_root: bytes) -> bytes:
     """
-    VOLUNTARY_EXIT-only `compute_domain`
+    BLS_TO_EXECUTION_CHANGE_KEYSTORE-only `compute_domain`
     """
     if len(fork_version) != 4:
         raise ValueError(f"Fork version should be in 4 bytes. Got {len(fork_version)}.")

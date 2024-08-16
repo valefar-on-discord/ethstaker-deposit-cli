@@ -19,6 +19,7 @@
         - [`existing-mnemonic` Arguments](#existing-mnemonic-arguments)
         - [Successful message](#successful-message)
         - [`generate-bls-to-execution-change` Arguments](#generate-bls-to-execution-change-arguments)
+        - [`generate-bls-to-execution-change-keystore` Arguments](#generate-bls-to-execution-change-keystore-arguments)
         - [`exit-transaction-keystore` Arguments](#exit-transaction-keystore-arguments)
         - [`exit-transaction-mnemonic` Arguments](#exit-transaction-mnemonic-arguments)
     - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python)
@@ -152,6 +153,7 @@ The CLI offers different commands depending on what you want to do with the tool
 | `new-mnemonic` | (Recommended) This command is used to generate keystores with a new mnemonic. |
 | `existing-mnemonic` | This command is used to re-generate or derive new keys from your existing mnemonic. Use this command, if (i) you have already generated keys with this CLI before, (ii) you want to reuse your mnemonic that you know is secure that you generated elsewhere (reusing your eth wallet mnemonic .etc), or (iii) you lost your keystores and need to recover your keys. |
 | `generate-bls-to-execution-change` | This command is used to generate BLS to execution address change message. This is used to add a withdrawal address to a validator that does not currently have one. |
+| `generate-bls-to-execution-change-keystore` | This command is used to sign a BLS to execution address change message with the provided validator key. This is used for a proposed solution to update withdrawal credentials for users who have lost their mnemonic. |
 | `exit-transaction-keystore` | This command is used to create an exit transaction using a keystore file. |
 | `exit-transaction-mnemonic` | This command is used to create an exit transaction using a mnemonic phrase. |
 
@@ -198,7 +200,7 @@ Your keys can be found at: <YOUR_FOLDER_PATH>
 
 ###### `generate-bls-to-execution-change` Arguments
 
-You can use `bls-to-execution-change --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
+You can use `generate-bls-to-execution-change --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
 
 | Argument | Type | Description |
 | -------- | -------- | -------- |
@@ -210,6 +212,20 @@ You can use `bls-to-execution-change --help` to see all arguments. Note that if 
 | `--validator_indices` | String of integer(s) | A list of the chosen validator index number(s) as identified on the beacon chain. Split multiple items with whitespaces or commas. |
 | `--bls_withdrawal_credentials_list` | String of hexstring(s). | A list of the old BLS withdrawal credentials of the given validator(s). It is for confirming you are using the correct keys. Split multiple items with whitespaces or commas. |
 | `--withdrawal_address` | String. Ethereum execution address in hexadecimal encoded form | If this field is set and valid, the given execution address will be used to create the withdrawal credentials. Otherwise, it will generate withdrawal credentials with the mnemonic-derived withdrawal public key in [ERC-2334 format](https://eips.ethereum.org/EIPS/eip-2334#eth2-specific-parameters). |
+| `--devnet_chain_setting` | String. JSON string `'{"network_name": "<NETWORK_NAME>", "genesis_fork_version": "<GENESIS_FORK_VERSION>", "exit_fork_version": "<EXIT_FORK_VERSION>", "genesis_validator_root": "<GENESIS_VALIDATOR_ROOT>"}'` | The custom chain setting of a devnet or testnet. Note that it will override your `--chain` choice. |
+
+###### `generate-bls-to-execution-change-keystore` Arguments
+
+You can use `generate-bls-to-execution-change-keystore --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
+
+| Argument | Type | Description |
+| -------- | -------- | -------- |
+| `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
+| `--keystore` | File | The keystore file associating with the validator you wish to sign with. This keystore file should match the provided validator index. |
+| `--keystore_password` | String | The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. |
+| `--validator_index` | Integer | The validator index corresponding to the provided keystore. |
+| `--withdrawal_address` | String. Ethereum execution address in hexadecimal encoded form that you wish to set as your withdrawal credentials. |
+| `--output_folder` | String. Pointing to `./bls_to_execution_changes_keystore` by default | The folder path for the `signed_exit_transaction-*` JSON file |
 | `--devnet_chain_setting` | String. JSON string `'{"network_name": "<NETWORK_NAME>", "genesis_fork_version": "<GENESIS_FORK_VERSION>", "exit_fork_version": "<EXIT_FORK_VERSION>", "genesis_validator_root": "<GENESIS_VALIDATOR_ROOT>"}'` | The custom chain setting of a devnet or testnet. Note that it will override your `--chain` choice. |
 
 ###### `exit-transaction-keystore` Arguments
@@ -299,6 +315,7 @@ See [here](#commands)
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
+See [here](#generate-bls-to-execution-change-keystore-arguments) for `generate-bls-to-execution-change-keystore` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
@@ -368,6 +385,7 @@ See [here](#commands)
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
+See [here](#generate-bls-to-execution-change-keystore-arguments) for `generate-bls-to-execution-change-keystore` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
@@ -484,6 +502,7 @@ See [here](#commands)
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
+See [here](#generate-bls-to-execution-change-keystore-arguments) for `generate-bls-to-execution-change-keystore` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
@@ -545,9 +564,12 @@ See [here](#commands)
 
 ###### Arguments
 
-See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
-See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
-See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
+See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
+See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
+See [here](#generate-bls-to-execution-change-keystore-arguments) for `generate-bls-to-execution-change-keystore` arguments\
+See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
+See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
 #### Option 3. Build `deposit-cli` with `virtualenv`
 
@@ -612,6 +634,7 @@ See [here](#commands)
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
+See [here](#generate-bls-to-execution-change-keystore-arguments) for `generate-bls-to-execution-change-keystore` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
