@@ -61,7 +61,7 @@ def export_bls_to_execution_change_keystore_json(folder: str,
 
     filefolder = os.path.join(
         folder,
-        'bls_to_execution_change_keystore_transaction-%s-%i.json' % (index, timestamp)
+        'bls_to_execution_change_keystore_signature-%s-%i.json' % (index, timestamp)
     )
 
     with open(filefolder, 'w') as f:

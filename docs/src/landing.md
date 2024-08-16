@@ -48,6 +48,8 @@ If there is a specific command you would like to understand more, please choose 
 
 - **[generate-bls-to-execution-change](generate_bls_to_execution_change.md)**: Update your withdrawal credentials of existing validators. It is **required** to have the corresponding mnemonic.
 
+- **[generate-bls-to-execution-change-keystore](generate_bls_to_execution_change_keystore.md)**: Sign an update withdrawal credentials message using your validator keystore.
+
 - **[exit-transaction-keystore](exit_transaction_keystore.md)**: Generate an exit message using the keystore of your validators.
 
 - **[exit-transaction-mnemonic](exit_transaction_mnemonic.md)**: Generate an exit message using the mnemonic of your validators.

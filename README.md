@@ -225,7 +225,7 @@ You can use `generate-bls-to-execution-change-keystore --help` to see all argume
 | `--keystore_password` | String | The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. |
 | `--validator_index` | Integer | The validator index corresponding to the provided keystore. |
 | `--withdrawal_address` | String. Ethereum execution address in hexadecimal encoded form that you wish to set as your withdrawal credentials. |
-| `--output_folder` | String. Pointing to `./bls_to_execution_changes_keystore` by default | The folder path for the `signed_exit_transaction-*` JSON file |
+| `--output_folder` | String. Pointing to `./bls_to_execution_changes_keystore` by default | The folder path for the `bls_to_execution_change_keystore_signature-*` JSON file |
 | `--devnet_chain_setting` | String. JSON string `'{"network_name": "<NETWORK_NAME>", "genesis_fork_version": "<GENESIS_FORK_VERSION>", "exit_fork_version": "<EXIT_FORK_VERSION>", "genesis_validator_root": "<GENESIS_VALIDATOR_ROOT>"}'` | The custom chain setting of a devnet or testnet. Note that it will override your `--chain` choice. |
 
 ###### `exit-transaction-keystore` Arguments
