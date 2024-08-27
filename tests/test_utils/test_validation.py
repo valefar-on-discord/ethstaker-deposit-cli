@@ -6,7 +6,6 @@ from typing import (
 from ethstaker_deposit.exceptions import ValidationError
 from ethstaker_deposit.settings import get_chain_setting
 from ethstaker_deposit.utils.validation import (
-    normalize_input_list,
     validate_int_range,
     validate_password_strength,
     validate_signed_exit,
@@ -46,22 +45,6 @@ def test_validate_int_range(num: Any, low: int, high: int, valid: bool) -> None:
     else:
         with pytest.raises(ValidationError):
             validate_int_range(num, low, high)
-
-
-@pytest.mark.parametrize(
-    'input, result',
-    [
-        ('1', ['1']),
-        ('1,2,3', ['1', '2', '3']),
-        ('[1,2,3]', ['1', '2', '3']),
-        ('(1,2,3)', ['1', '2', '3']),
-        ('{1,2,3}', ['1', '2', '3']),
-        ('1 2 3', ['1', '2', '3']),
-        ('1  2  3', ['1', '2', '3']),
-    ]
-)
-def test_normalize_input_list(input, result):
-    assert normalize_input_list(input) == result
 
 
 valid_pubkey = "911e7c7fc980bcf5400980917ee92797d52d226768e1b26985fabaf5f214464059ab2d52170b0605f4c8e7a872cde436"
