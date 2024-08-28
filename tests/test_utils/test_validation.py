@@ -8,6 +8,7 @@ from ethstaker_deposit.settings import get_chain_setting
 from ethstaker_deposit.utils.validation import (
     normalize_input_list,
     validate_int_range,
+    validate_partial_deposit_amount,
     validate_password_strength,
     validate_signed_exit,
 )
@@ -46,6 +47,31 @@ def test_validate_int_range(num: Any, low: int, high: int, valid: bool) -> None:
     else:
         with pytest.raises(ValidationError):
             validate_int_range(num, low, high)
+
+
+@pytest.mark.parametrize(
+    'amount, valid',
+    [
+        ('-1', False),
+        ('0', False),
+        ('0.99999', False),
+        ('1', True),
+        ('1.000000001', True),
+        ('1.0000000001', False),
+        ('32', True),
+        ('18446744073.709551615', True),
+        ('18446744073.709551616', False),
+        ('18446744073.7095516151', False),
+        ('a', False),
+        (' ', False)
+    ]
+)
+def test_validate_partial_deposit_amount(amount: str, valid: bool) -> None:
+    if valid:
+        validate_partial_deposit_amount(amount)
+    else:
+        with pytest.raises(ValidationError):
+            validate_partial_deposit_amount(amount)
 
 
 @pytest.mark.parametrize(

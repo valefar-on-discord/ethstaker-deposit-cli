@@ -3,7 +3,7 @@ import os
 import time
 
 from typing import Any
-from ethstaker_deposit.exit_transaction import exit_transaction_generation, export_exit_transaction_json
+from ethstaker_deposit.utils.exit_transaction import exit_transaction_generation, export_exit_transaction_json
 from ethstaker_deposit.key_handling.keystore import Keystore
 from ethstaker_deposit.settings import (
     MAINNET,

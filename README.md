@@ -21,6 +21,7 @@
         - [`generate-bls-to-execution-change` Arguments](#generate-bls-to-execution-change-arguments)
         - [`exit-transaction-keystore` Arguments](#exit-transaction-keystore-arguments)
         - [`exit-transaction-mnemonic` Arguments](#exit-transaction-mnemonic-arguments)
+        - [`partial-deposit` Arguments](#partial-deposit-arguments)
     - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python)
       - [Step 0. Python version checking](#step-0-python-version-checking)
       - [Step 1. Installation](#step-1-installation-1)
@@ -154,6 +155,7 @@ The CLI offers different commands depending on what you want to do with the tool
 | `generate-bls-to-execution-change` | This command is used to generate BLS to execution address change message. This is used to add a withdrawal address to a validator that does not currently have one. |
 | `exit-transaction-keystore` | This command is used to create an exit transaction using a keystore file. |
 | `exit-transaction-mnemonic` | This command is used to create an exit transaction using a mnemonic phrase. |
+| `partial-deposit` | This command is used to create a deposit file using a keystore file. |
 
 ###### `new-mnemonic` Arguments
 
@@ -200,7 +202,7 @@ Your keys can be found at: <YOUR_FOLDER_PATH>
 
 ###### `generate-bls-to-execution-change` Arguments
 
-You can use `bls-to-execution-change --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
+You can use `generate-bls-to-execution-change --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
 
 | Argument | Type | Description |
 | -------- | -------- | -------- |
@@ -240,6 +242,19 @@ You can use `exit-transaction-mnemonic --help` to see all arguments. Note that i
 | `--validator_indices` | String of integer(s) | A list of the chosen validator index number(s) as identified on the beacon chain. Split multiple items with whitespaces or commas. |
 | `--epoch` | Optional integer. 0 by default | The epoch of when the exit transaction will be valid. The transaction will always be valid by default. |
 | `--output_folder` | String. Pointing to `./exit_transaction` by default | The folder path for the `signed_exit_transaction-*` JSON file |
+
+###### `partial-deposit` Arguments
+
+You can use `partial-deposit --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
+
+| Argument | Type | Description |
+| -------- | -------- | -------- |
+| `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
+| `--keystore` | File | The keystore file associating with the validator you wish to deposit to. |
+| `--keystore_password` | String | The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. |
+| `--amount` | Float. `32` by default | The amount you wish to deposit. Must be in ether, at least 1 ether, and can not have higher precision than 1 gwei. |
+| `--withdrawal_address` | String. Ethereum execution address in hexadecimal encoded form | The withdrawal address of the existing validator or the desired withdrawal address. |
+| `--output_folder` | String. Pointing to `./partial_deposit` by default | The folder path for the `deposit-*` JSON file |
 
 #### Option 2. Build `deposit-cli` with native Python
 
@@ -302,7 +317,8 @@ See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
-See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
+See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments\
+See [here](#partial-deposit-arguments) for `partial-deposit` arguments
 
 ###### Successful message
 See [here](#successful-message)
@@ -376,7 +392,8 @@ See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
-See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
+See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments\
+See [here](#partial-deposit-arguments) for `partial-deposit` arguments
 
 #### Option 4. Use published docker image
 
@@ -492,7 +509,8 @@ See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
-See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
+See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments\
+See [here](#partial-deposit-arguments) for `partial-deposit` arguments
 
 #### Option 2. Build `deposit-cli` with native Python
 
@@ -552,9 +570,13 @@ See [here](#commands)
 
 ###### Arguments
 
-See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
-See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
-See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
+See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
+See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
+See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
+See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments\
+See [here](#partial-deposit-arguments) for `partial-deposit` arguments
 
 #### Option 3. Build `deposit-cli` with `virtualenv`
 
@@ -619,7 +641,8 @@ See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
-See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
+See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments\
+See [here](#partial-deposit-arguments) for `partial-deposit` arguments
 
 ## Development
 

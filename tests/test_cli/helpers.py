@@ -5,12 +5,18 @@ from ethstaker_deposit.key_handling.keystore import Keystore
 from ethstaker_deposit.utils.constants import (
     DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME,
     DEFAULT_EXIT_TRANSACTION_FOLDER_NAME,
+    DEFAULT_PARTIAL_DEPOSIT_FOLDER_NAME,
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
 
 
 def clean_key_folder(my_folder_path: str) -> None:
     sub_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
+    clean_folder(my_folder_path, sub_folder_path)
+
+
+def clean_partial_deposit_folder(my_folder_path: str) -> None:
+    sub_folder_path = os.path.join(my_folder_path, DEFAULT_PARTIAL_DEPOSIT_FOLDER_NAME)
     clean_folder(my_folder_path, sub_folder_path)
 
 
@@ -24,7 +30,7 @@ def clean_exit_transaction_folder(my_folder_path: str) -> None:
     clean_folder(my_folder_path, sub_folder_path)
 
 
-def clean_folder(primary_folder_path: str, sub_folder_path: str) -> None:
+def clean_folder(primary_folder_path: str, sub_folder_path: str, ignore_primary: bool = False) -> None:
     if not os.path.exists(sub_folder_path):
         return
 
@@ -32,7 +38,8 @@ def clean_folder(primary_folder_path: str, sub_folder_path: str) -> None:
     for key_file_name in key_files:
         os.remove(os.path.join(sub_folder_path, key_file_name))
     os.rmdir(sub_folder_path)
-    os.rmdir(primary_folder_path)
+    if not ignore_primary:
+        os.rmdir(primary_folder_path)
 
 
 def get_uuid(key_file: str) -> str:

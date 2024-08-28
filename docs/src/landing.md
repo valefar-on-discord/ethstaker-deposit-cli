@@ -52,6 +52,8 @@ If there is a specific command you would like to understand more, please choose 
 
 - **[exit-transaction-mnemonic](exit_transaction_mnemonic.md)**: Generate an exit message using the mnemonic of your validators.
 
+- **[partial-deposit](partial_deposit.md)**: Generate a deposit file with an existing validator key. Can be used to initiate a validator or deposit to an existing validator.
+
 ## Canonical Deposit Contract and Launchpad
 
 Ethstaker confirms the canonical Ethereum staking deposit contract addresses and launchpad URLs.

@@ -13,17 +13,21 @@ DOMAIN_VOLUNTARY_EXIT = bytes.fromhex('04000000')
 DOMAIN_BLS_TO_EXECUTION_CHANGE = bytes.fromhex('0A000000')
 BLS_WITHDRAWAL_PREFIX = bytes.fromhex('00')
 EXECUTION_ADDRESS_WITHDRAWAL_PREFIX = bytes.fromhex('01')
+COMPOUNDING_WITHDRAWAL_PREFIX = bytes.fromhex('02')
 
 ETH2GWEI = 10 ** 9
+# TODO: check if user will can deposit a new validator with more than 32 and 0x02 credentials or 0x00 and 0x01 only
 MIN_DEPOSIT_AMOUNT = 2 ** 0 * ETH2GWEI
 MAX_DEPOSIT_AMOUNT = 2 ** 5 * ETH2GWEI
-
+# Deposit max https://github.com/ethereum/consensus-specs/blob/dev/solidity_deposit_contract/deposit_contract.sol#L116
+GWEI_DEPOSIT_LIMIT = 2**64 - 1
 
 # File/folder constants
 WORD_LISTS_PATH = os.path.join('ethstaker_deposit', 'key_handling', 'key_derivation', 'word_lists')
 DEFAULT_VALIDATOR_KEYS_FOLDER_NAME = 'validator_keys'
 DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME = 'bls_to_execution_changes'
 DEFAULT_EXIT_TRANSACTION_FOLDER_NAME = 'exit_transactions'
+DEFAULT_PARTIAL_DEPOSIT_FOLDER_NAME = 'partial_deposits'
 
 # Internationalisation constants
 INTL_CONTENT_PATH = os.path.join('ethstaker_deposit', 'intl')

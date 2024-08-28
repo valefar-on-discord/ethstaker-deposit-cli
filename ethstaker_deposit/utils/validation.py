@@ -1,3 +1,4 @@
+from decimal import Decimal, InvalidOperation
 import click
 import json
 import re
@@ -30,10 +31,12 @@ from ethstaker_deposit.credentials import (
     Credential,
 )
 from ethstaker_deposit.utils.constants import (
-    MAX_DEPOSIT_AMOUNT,
-    MIN_DEPOSIT_AMOUNT,
     BLS_WITHDRAWAL_PREFIX,
+    COMPOUNDING_WITHDRAWAL_PREFIX,
+    ETH2GWEI,
     EXECUTION_ADDRESS_WITHDRAWAL_PREFIX,
+    GWEI_DEPOSIT_LIMIT,
+    MIN_DEPOSIT_AMOUNT,
 )
 from ethstaker_deposit.utils.crypto import SHA256
 from ethstaker_deposit.settings import BaseChainSetting
@@ -65,7 +68,7 @@ def verify_deposit_data_json(filefolder: str, credentials: Sequence[Credential])
     return all_valid_deposits
 
 
-def validate_deposit(deposit_data_dict: Dict[str, Any], credential: Credential) -> bool:
+def validate_deposit(deposit_data_dict: Dict[str, Any], credential: Credential = None) -> bool:
     '''
     Checks whether a deposit is valid based on the staking deposit rules.
     https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#deposits
@@ -80,27 +83,34 @@ def validate_deposit(deposit_data_dict: Dict[str, Any], credential: Credential) 
     # Verify pubkey
     if len(pubkey) != 48:
         return False
-    if pubkey != credential.signing_pk:
+    if credential and pubkey != credential.signing_pk:
         return False
 
     # Verify withdrawal credential
     if len(withdrawal_credentials) != 32:
         return False
-    if withdrawal_credentials[:1] == BLS_WITHDRAWAL_PREFIX == credential.withdrawal_prefix:
+    if withdrawal_credentials[:1] == BLS_WITHDRAWAL_PREFIX:
+        if credential and withdrawal_credentials[:1] != credential.withdrawal_prefix:
+            return False
         if withdrawal_credentials[1:] != SHA256(credential.withdrawal_pk)[1:]:
             return False
-    elif withdrawal_credentials[:1] == EXECUTION_ADDRESS_WITHDRAWAL_PREFIX == credential.withdrawal_prefix:
+    elif (
+        withdrawal_credentials[:1] == EXECUTION_ADDRESS_WITHDRAWAL_PREFIX
+        or withdrawal_credentials[:1] == COMPOUNDING_WITHDRAWAL_PREFIX
+    ):
+        if credential and withdrawal_credentials[:1] != credential.withdrawal_prefix:
+            return False
         if withdrawal_credentials[1:12] != b'\x00' * 11:
             return False
-        if credential.withdrawal_address is None:
+        if credential and credential.withdrawal_address is None:
             return False
-        if withdrawal_credentials[12:] != credential.withdrawal_address:
+        if credential and withdrawal_credentials[12:] != credential.withdrawal_address:
             return False
     else:
         return False
 
     # Verify deposit amount
-    if not MIN_DEPOSIT_AMOUNT < amount <= MAX_DEPOSIT_AMOUNT:
+    if not MIN_DEPOSIT_AMOUNT <= amount <= GWEI_DEPOSIT_LIMIT:
         return False
 
     # Verify deposit signature && pubkey
@@ -109,6 +119,7 @@ def validate_deposit(deposit_data_dict: Dict[str, Any], credential: Credential) 
         withdrawal_credentials=withdrawal_credentials,
         amount=amount
     )
+
     domain = compute_deposit_domain(fork_version)
     signing_root = compute_signing_root(deposit_message, domain)
     if not bls.Verify(pubkey, signing_root, signature):
@@ -145,8 +156,10 @@ def validate_int_range(num: Any, low: int, high: int) -> int:
         raise ValidationError(load_text(['err_not_positive_integer']))
 
 
-def validate_withdrawal_address(cts: click.Context, param: Any, address: str) -> HexAddress:
+def validate_withdrawal_address(cts: click.Context, param: Any, address: str, require: bool = False) -> HexAddress:
     if address in ("", None):
+        if require:
+            raise ValidationError(load_text(['err_missing_address']))
         return None
     if not is_hex_address(address):
         raise ValidationError(load_text(['err_invalid_ECDSA_hex_addr']))
@@ -156,6 +169,29 @@ def validate_withdrawal_address(cts: click.Context, param: Any, address: str) ->
     normalized_address = to_normalized_address(address)
     click.echo('\n%s\n' % load_text(['msg_ECDSA_hex_addr_withdrawal']))
     return normalized_address
+
+
+def validate_partial_deposit_amount(amount: str) -> int:
+    '''
+    Verifies that `amount` is a valid gwei denomination and 1 ether <= amount <= GWEI_DEPOSIT_LIMIT gwei
+    Amount is expected to be in ether and the returned value will be converted to gwei and represented as an int
+    '''
+    try:
+        decimal_ether = Decimal(amount)
+        amount_gwei = decimal_ether * Decimal(ETH2GWEI)
+
+        if amount_gwei % 1 != 0:
+            raise ValidationError(load_text(['err_not_gwei_denomination']))
+
+        if amount_gwei < 1 * ETH2GWEI:
+            raise ValidationError(load_text(['err_min_deposit']))
+
+        if amount_gwei > GWEI_DEPOSIT_LIMIT:
+            raise ValidationError(load_text(['err_max_deposit']))
+
+        return int(amount_gwei)
+    except InvalidOperation:
+        raise ValidationError(load_text(['err_invalid_amount']))
 
 
 #

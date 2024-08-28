@@ -50,6 +50,8 @@ Determine which command best suites what you would like to accomplish:
 
 - **[exit-transaction-mnemonic](exit_transaction_mnemonic.md)**: Generate an exit message using the mnemonic of your validators.
 
+- **[partial-deposit](partial_deposit.md)**: Generate a partial deposit using a validator keystore.
+
 ---
 
 If you encounter any issues, please check the [issues page](https://github.com/eth-educators/ethstaker-deposit-cli/issues) for help or to report a problem. You may also contact us on the [Ethstaker discord](https://dsc.gg/ethstaker).

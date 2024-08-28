@@ -14,7 +14,14 @@
     "validate_withdrawal_address": {
         "err_invalid_ECDSA_hex_addr": "The given execution address is not in hexadecimal encoded form.",
         "err_invalid_ECDSA_hex_addr_checksum": "The given execution address is not in checksum form.",
+        "err_missing_address": "An address must must be providing",
         "msg_ECDSA_hex_addr_withdrawal": "**[Warning] you are setting an execution address as your withdrawal address. Please ensure that you have control over this address.**"
+    },
+    "validate_partial_deposit_amount": {
+        "err_invalid_amount": "Invalid amount provided. Please provide a value of at least 1 ether of how much you wish to deposit.",
+        "err_not_gwei_denomination": "Invalid amount provided. Please provide a value can not have precision beyond 1 gwei.",
+        "err_min_deposit": "Invalid amount provided. Please provide a value of at least 1 ether.",
+        "err_max_deposit": "Invalid amount provided. Value is too large. Please provide a lesser amount."
     },
     "validate_bls_withdrawal_credentials": {
         "err_is_already_01_form": "The given withdrawal credentials is already in 0x01 form. Have you already set the withdrawal address?",

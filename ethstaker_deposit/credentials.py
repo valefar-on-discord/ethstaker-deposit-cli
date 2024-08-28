@@ -11,7 +11,7 @@ from eth_utils import to_canonical_address
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from ethstaker_deposit.exceptions import ValidationError
-from ethstaker_deposit.exit_transaction import exit_transaction_generation, export_exit_transaction_json
+from ethstaker_deposit.utils.exit_transaction import exit_transaction_generation, export_exit_transaction_json
 from ethstaker_deposit.key_handling.key_derivation.path import mnemonic_and_path_to_key
 from ethstaker_deposit.key_handling.keystore import (
     Keystore,
@@ -27,6 +27,7 @@ from ethstaker_deposit.utils.constants import (
     MIN_DEPOSIT_AMOUNT,
 )
 from ethstaker_deposit.utils.crypto import SHA256
+from ethstaker_deposit.utils.deposit import export_deposit_data_json as export_deposit_data_json_util
 from ethstaker_deposit.utils.intl import load_text
 from ethstaker_deposit.utils.ssz import (
     compute_deposit_domain,
@@ -326,12 +327,7 @@ class CredentialList:
                     deposit_data.append(datum_dict)
                     bar.update(1)
 
-        filefolder = os.path.join(folder, 'deposit_data-%i.json' % timestamp)
-        with open(filefolder, 'w') as f:
-            json.dump(deposit_data, f, default=lambda x: x.hex())
-        if os.name == 'posix':
-            os.chmod(filefolder, int('440', 8))  # Read for owner & group
-        return filefolder
+        return export_deposit_data_json_util(folder, timestamp, deposit_data)
 
     def verify_keystores(self, keystore_filefolders: List[str], password: str) -> bool:
         all_valid_keystores = True
