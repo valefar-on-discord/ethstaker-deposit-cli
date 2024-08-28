@@ -92,14 +92,15 @@ FUNC_NAME = 'generate_bls_to_execution_change_keystore'
 )
 @jit_option(
     callback=captive_prompt_callback(
-        lambda address: validate_withdrawal_address(None, None, address),
+        lambda address: validate_withdrawal_address(None, None, address, True),
         lambda: load_text(['arg_withdrawal_address', 'prompt'], func=FUNC_NAME),
         lambda: load_text(['arg_withdrawal_address', 'confirm'], func=FUNC_NAME),
         lambda: load_text(['arg_withdrawal_address', 'mismatch'], func=FUNC_NAME),
+        prompt_if_none=True,
     ),
     help=lambda: load_text(['arg_withdrawal_address', 'help'], func=FUNC_NAME),
     param_decls=['--withdrawal_address'],
-    prompt=lambda: load_text(['arg_withdrawal_address', 'prompt'], func=FUNC_NAME),
+    prompt=False,  # the callback handles the prompt
 )
 @jit_option(
     default=os.getcwd(),
