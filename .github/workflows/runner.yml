@@ -6,7 +6,25 @@ on:
     types: [opened, synchronize, labeled, unlabeled]
     branches: [main]
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_test.txt
+      - name: Run type checker
+        run: python -m mypy --config-file mypy.ini -p ethstaker_deposit
+      - name: Run linter
+        run: flake8 --config=flake8.ini ./ethstaker_deposit ./tests
   ci-runner:
+    needs: lint
     if: |
       contains(github.event.pull_request.labels.*.name, 'run-tests') ||
       github.event_name == 'push'
@@ -29,17 +47,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
           pip install -r requirements_test.txt
           pip install coverage
       - name: Run tests
         run: |
           coverage run --data-file=.coverage.${{ matrix.os }}.${{ matrix.python-version }} -m pytest tests
-      - name: Run type checker
-        run: python -m mypy --config-file mypy.ini -p ethstaker_deposit
-      - name: Run linter
-        run: flake8 --config=flake8.ini ./ethstaker_deposit ./tests
-      - name: Upload coverage data 
+      - name: Upload coverage data
         uses: actions/upload-artifact@v4
         with:
           name: coverage-${{ matrix.os }}-${{ matrix.python-version }}
@@ -78,5 +91,5 @@ jobs:
       - name: Upload final coverage text report
         uses: actions/upload-artifact@v4
         with:
-          name: results 
-          path: results/ 
+          name: results
+          path: results/
