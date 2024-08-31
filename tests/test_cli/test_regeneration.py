@@ -63,12 +63,12 @@ def test_regeneration(monkeypatch) -> None:
     # Create index 1 and 2
     inputs = [
         'english',
-        mock_mnemonic,
         '1', '1', '2', 'mainnet', 'MyPassword', 'MyPassword']
     data = '\n'.join(inputs)
     arguments = [
         '--ignore_connectivity',
         'existing-mnemonic',
+        '--mnemonic', mock_mnemonic,
         '--withdrawal_address', '',
         '--folder', folder_path_2,
     ]
