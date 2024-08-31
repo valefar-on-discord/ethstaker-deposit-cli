@@ -104,11 +104,11 @@ def captive_prompt_callback(
         # To avoid showing confirmation prompt twice, we introduce a flag to prompt inside
         # the callback
         # See https://github.com/pallets/click/discussions/2673
+        if config.non_interactive:
+            return processing_func(user_input)
         if (prompt_if_none and param.prompt is None
                 and ctx.get_parameter_source(param.name) == click.core.ParameterSource.DEFAULT):
             user_input = click.prompt(prompt(), hide_input=hide_input, default=_value_of(default))
-        if config.non_interactive:
-            return processing_func(user_input)
         while True:
             try:
                 processed_input = processing_func(user_input)
@@ -128,15 +128,12 @@ def choice_prompt_func(prompt_func: Callable[[], str], choices: Sequence[str]) -
     '''
     Formats the prompt and choices in a printable manner.
     '''
-    # A join with unconditional embedded LTR can add non-printing characters on some Terminals
-    # Iterate over choices instead and use LTR embedding if the string has RTL embedding
-    output = '['
-    for i in range(len(choices)):
-        output = output + choices[i]
-        if i < len(choices) - 1:
-            if '\u202b' in choices[i]:
-                output = output + '\u202a \u202c, '
-            else:
-                output = output + ', '
-    output = output + ']'
-    return lambda: '%s %s: ' % (prompt_func(), output)
+    return lambda: '%s %s: ' % (prompt_func(), choices)
+
+
+def deactivate_prompts(ctx: click.Context, param: Any, value: str) -> Any:
+    if value:
+        for p in ctx.command.params:
+            if isinstance(p, click.Option) and p.prompt is not None:
+                p.prompt = None
+    return value

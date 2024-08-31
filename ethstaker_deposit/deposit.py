@@ -14,6 +14,7 @@ from ethstaker_deposit.exceptions import ValidationError
 from ethstaker_deposit.utils.click import (
     captive_prompt_callback,
     choice_prompt_func,
+    deactivate_prompts,
     jit_option,
 )
 from ethstaker_deposit.utils import config
@@ -81,6 +82,7 @@ class SortedGroup(click.Group):
 )
 @click.option(
     '--non_interactive',
+    callback=deactivate_prompts,
     default=False,
     is_flag=True,
     help=(
