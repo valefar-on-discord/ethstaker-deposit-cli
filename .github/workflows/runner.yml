@@ -23,6 +23,17 @@ jobs:
         run: python -m mypy --config-file mypy.ini -p ethstaker_deposit
       - name: Run linter
         run: flake8 --config=flake8.ini ./ethstaker_deposit ./tests
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install jsonlint
+        run: npm install -g @prantlf/jsonlint
+      - name: Validate JSON files
+        run: |
+          for file in $(find ./ethstaker_deposit/intl -name "*.json"); do
+            jsonlint $file || exit 1
+          done
   ci-runner:
     needs: lint
     if: |
@@ -52,7 +63,7 @@ jobs:
       - name: Run tests
         run: |
           coverage run --data-file=.coverage.${{ matrix.os }}.${{ matrix.python-version }} -m pytest tests
-      - name: Upload coverage data 
+      - name: Upload coverage data
         uses: actions/upload-artifact@v4
         with:
           name: coverage-${{ matrix.os }}-${{ matrix.python-version }}
@@ -91,5 +102,5 @@ jobs:
       - name: Upload final coverage text report
         uses: actions/upload-artifact@v4
         with:
-          name: results 
-          path: results/ 
+          name: results
+          path: results/
