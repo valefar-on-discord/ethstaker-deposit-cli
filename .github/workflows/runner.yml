@@ -32,7 +32,7 @@ jobs:
       - name: Validate JSON files
         run: |
           for file in $(find ./ethstaker_deposit/intl -name "*.json"); do
-            jsonlint $file || exit 1
+            jsonlint --quite $file || exit 1
           done
   ci-runner:
     needs: lint
