@@ -56,6 +56,8 @@ If there is a specific command you would like to understand more, please choose 
 
 - **[partial-deposit](partial_deposit.md)**: Generate a deposit file with an existing validator key. Can be used to initiate a validator or deposit to an existing validator.
 
+- **[test-keystore](test_keystore.md)**: Verify access to the provided keystore file by attempting to decrypt with the provided keystore password.
+
 ## Canonical Deposit Contract and Launchpad
 
 Ethstaker confirms the canonical Ethereum staking deposit contract addresses and launchpad URLs.

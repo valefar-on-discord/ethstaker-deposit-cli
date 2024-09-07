@@ -158,6 +158,7 @@ The CLI offers different commands depending on what you want to do with the tool
 | `exit-transaction-keystore` | This command is used to create an exit transaction using a keystore file. |
 | `exit-transaction-mnemonic` | This command is used to create an exit transaction using a mnemonic phrase. |
 | `partial-deposit` | This command is used to create a deposit file using a keystore file. |
+| `test-keystore` | This command is used to verify access to the provided keystore file by attempting to decrypt it with the provided keystore password. |
 
 ###### `new-mnemonic` Arguments
 
@@ -272,6 +273,15 @@ You can use `partial-deposit --help` to see all arguments. Note that if there ar
 | `--withdrawal_address` | String. Ethereum execution address in hexadecimal encoded form | The withdrawal address of the existing validator or the desired withdrawal address. |
 | `--output_folder` | String. Pointing to `./partial_deposit` by default | The folder path for the `deposit-*` JSON file |
 
+###### `test-keystore` Arguments
+
+You can use `test-keystore --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
+
+| Argument | Type | Description |
+| -------- | -------- | -------- |
+| `--keystore` | File | The keystore file you wish to verify. |
+| `--keystore_password` | String | The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. |
+
 #### Option 2. Build `deposit-cli` with native Python
 
 ##### Step 0. Python version checking
@@ -335,7 +345,8 @@ See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-exe
 See [here](#generate-bls-to-execution-change-keystore-arguments) for `generate-bls-to-execution-change-keystore` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments\
-See [here](#partial-deposit-arguments) for `partial-deposit` arguments
+See [here](#partial-deposit-arguments) for `partial-deposit` arguments\
+See [here](#test-keystore-arguments) for `test-keystore` arguments
 
 ###### Successful message
 See [here](#successful-message)
@@ -411,7 +422,8 @@ See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-exe
 See [here](#generate-bls-to-execution-change-keystore-arguments) for `generate-bls-to-execution-change-keystore` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments\
-See [here](#partial-deposit-arguments) for `partial-deposit` arguments
+See [here](#partial-deposit-arguments) for `partial-deposit` arguments\
+See [here](#test-keystore-arguments) for `test-keystore` arguments
 
 #### Option 4. Use published docker image
 
@@ -529,7 +541,8 @@ See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-exe
 See [here](#generate-bls-to-execution-change-keystore-arguments) for `generate-bls-to-execution-change-keystore` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments\
-See [here](#partial-deposit-arguments) for `partial-deposit` arguments
+See [here](#partial-deposit-arguments) for `partial-deposit` arguments\
+See [here](#test-keystore-arguments) for `test-keystore` arguments
 
 #### Option 2. Build `deposit-cli` with native Python
 
@@ -595,7 +608,8 @@ See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-exe
 See [here](#generate-bls-to-execution-change-keystore-arguments) for `generate-bls-to-execution-change-keystore` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments\
-See [here](#partial-deposit-arguments) for `partial-deposit` arguments
+See [here](#partial-deposit-arguments) for `partial-deposit` arguments\
+See [here](#test-keystore-arguments) for `test-keystore` arguments
 
 #### Option 3. Build `deposit-cli` with `virtualenv`
 
@@ -662,7 +676,8 @@ See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-exe
 See [here](#generate-bls-to-execution-change-keystore-arguments) for `generate-bls-to-execution-change-keystore` arguments\
 See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments\
-See [here](#partial-deposit-arguments) for `partial-deposit` arguments
+See [here](#partial-deposit-arguments) for `partial-deposit` arguments\
+See [here](#test-keystore-arguments) for `test-keystore` arguments
 
 ## Development
 
