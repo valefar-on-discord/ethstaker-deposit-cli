@@ -10,7 +10,7 @@ Will verify access to the provided keystore file by attempting to decrypt it wit
 
 - **`--keystore`**: The keystore file you wish to verify.
 
-- **`--keystore_password`**: The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. <span class="warning"></span>
+- **`--keystore_password`**: The password used to attempt decryption of the provided keystore file. Note: It is not your mnemonic password. <span class="warning"></span>
 
 
 ## Example Usage

@@ -282,7 +282,7 @@ You can use `test-keystore --help` to see all arguments. Note that if there are 
 | Argument | Type | Description |
 | -------- | -------- | -------- |
 | `--keystore` | File | The keystore file you wish to verify. |
-| `--keystore_password` | String | The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. |
+| `--keystore_password` | String | The password used to attempt decryption of the provided keystore file. Note: It is not your mnemonic password. |
 
 #### Option 2. Build `deposit-cli` with native Python
 
