@@ -18,8 +18,8 @@ from ethstaker_deposit.utils.validation import (
     validate_withdrawal_address,
 )
 from ethstaker_deposit.utils.constants import (
-    MAX_DEPOSIT_AMOUNT,
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
+    MIN_ACTIVATION_AMOUNT,
 )
 from ethstaker_deposit.utils.ascii_art import RHINO_0
 from ethstaker_deposit.utils.click import (
@@ -127,7 +127,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
                   withdrawal_address: HexAddress, pbkdf2: bool, **kwargs: Any) -> None:
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
-    amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
+    amounts = [MIN_ACTIVATION_AMOUNT] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     chain_setting = get_chain_setting(chain)
     if not os.path.exists(folder):

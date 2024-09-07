@@ -35,8 +35,8 @@ from ethstaker_deposit.utils.constants import (
     COMPOUNDING_WITHDRAWAL_PREFIX,
     ETH2GWEI,
     EXECUTION_ADDRESS_WITHDRAWAL_PREFIX,
-    GWEI_DEPOSIT_LIMIT,
     MIN_DEPOSIT_AMOUNT,
+    MAX_DEPOSIT_AMOUNT,
 )
 from ethstaker_deposit.utils.crypto import SHA256
 from ethstaker_deposit.settings import BaseChainSetting
@@ -110,7 +110,7 @@ def validate_deposit(deposit_data_dict: Dict[str, Any], credential: Credential =
         return False
 
     # Verify deposit amount
-    if not MIN_DEPOSIT_AMOUNT <= amount <= GWEI_DEPOSIT_LIMIT:
+    if not MIN_DEPOSIT_AMOUNT <= amount <= MAX_DEPOSIT_AMOUNT:
         return False
 
     # Verify deposit signature && pubkey
@@ -173,7 +173,7 @@ def validate_withdrawal_address(cts: click.Context, param: Any, address: str, re
 
 def validate_partial_deposit_amount(amount: str) -> int:
     '''
-    Verifies that `amount` is a valid gwei denomination and 1 ether <= amount <= GWEI_DEPOSIT_LIMIT gwei
+    Verifies that `amount` is a valid gwei denomination and 1 ether <= amount <= MAX_DEPOSIT_AMOUNT gwei
     Amount is expected to be in ether and the returned value will be converted to gwei and represented as an int
     '''
     try:
@@ -186,7 +186,7 @@ def validate_partial_deposit_amount(amount: str) -> int:
         if amount_gwei < 1 * ETH2GWEI:
             raise ValidationError(load_text(['err_min_deposit']))
 
-        if amount_gwei > GWEI_DEPOSIT_LIMIT:
+        if amount_gwei > MAX_DEPOSIT_AMOUNT:
             raise ValidationError(load_text(['err_max_deposit']))
 
         return int(amount_gwei)

@@ -23,7 +23,7 @@ from .helpers import clean_folder, clean_key_folder, clean_partial_deposit_folde
         ("32"),
         ("1"),
         ("432.123456789"),
-        ("18446744073.709551615"),
+        ("2048"),
     ]
 )
 def test_partial_deposit(amount: str) -> None:

@@ -59,9 +59,9 @@ def test_validate_int_range(num: Any, low: int, high: int, valid: bool) -> None:
         ('1.000000001', True),
         ('1.0000000001', False),
         ('32', True),
-        ('18446744073.709551615', True),
-        ('18446744073.709551616', False),
-        ('18446744073.7095516151', False),
+        ('2048', True),
+        ('2048.000000001', False),
+        ('2048.0000000001', False),
         ('a', False),
         (' ', False)
     ]
