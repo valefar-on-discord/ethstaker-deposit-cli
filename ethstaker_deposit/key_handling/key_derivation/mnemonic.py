@@ -1,3 +1,4 @@
+from collections import defaultdict
 import os
 from unicodedata import normalize
 from secrets import randbits
@@ -64,14 +65,25 @@ def get_seed(*, mnemonic: str, password: str) -> bytes:
 def determine_mnemonic_language(mnemonic: str, words_path: str) -> Sequence[str]:
     """
     Given a `mnemonic` determine what language[s] it is written in.
-    There are collisions between word-lists, so multiple candidate languages are returned.
+    First create a map of every word in all supported languages and what languages those words belong to.
+    Then go through each word in the provided mnemonic and determine its potential languages.
+    Return a list of all potential languages.
     """
     languages = MNEMONIC_LANG_OPTIONS.keys()
-    word_language_map = {word: lang for lang in languages for word in _get_word_list(lang, words_path)}
+    word_language_map = defaultdict(list)
+    for lang, word in ((lang, word) for lang in languages for word in _get_word_list(lang, words_path)):
+        word_language_map[word].append(lang)
+
     try:
         mnemonic_list = [normalize('NFKC', word)[:4] for word in mnemonic.lower().split(' ')]
-        word_languages = [[lang for word, lang in word_language_map.items() if normalize('NFKC', word)[:4] == abbrev]
-                          for abbrev in mnemonic_list]
+        word_languages = [
+            [
+                lang for word, langs in word_language_map.items()
+                for lang in langs
+                if normalize('NFKC', word)[:4] == abbrev
+            ]
+            for abbrev in mnemonic_list
+        ]
         return list(set(sum(word_languages, [])))
     except KeyError:
         raise ValueError('Word not found in mnemonic word lists for any language.')
