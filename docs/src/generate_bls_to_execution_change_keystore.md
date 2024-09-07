@@ -2,6 +2,8 @@
 
 <div class="warning">
 This command is associated with the a proposed solution to update withdrawal credentials for those who are missing their mnemonic. At this point this has not been approved or implemented and there is no guarantee credentials will be modified in the future.
+
+The project is located [here](https://github.com/eth-educators/update-credentials-without-mnemonic) if you would like to learn more.
 </div>
 
 ## Description
