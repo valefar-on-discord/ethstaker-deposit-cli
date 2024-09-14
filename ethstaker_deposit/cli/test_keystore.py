@@ -22,11 +22,11 @@ FUNC_NAME = 'test_keystore'
     callback=captive_prompt_callback(
         lambda file: validate_keystore_file(file),
         lambda: load_text(['arg_test_keystore_keystore', 'prompt'], func=FUNC_NAME),
+        prompt_if_none=True,
     ),
     help=lambda: load_text(['arg_test_keystore_keystore', 'help'], func=FUNC_NAME),
     param_decls='--keystore',
-    prompt=lambda: load_text(['arg_test_keystore_keystore', 'prompt'], func=FUNC_NAME),
-    type=click.Path(exists=True, file_okay=True, dir_okay=False),
+    prompt=False,
 )
 @jit_option(
     callback=captive_prompt_callback(
@@ -52,7 +52,7 @@ def test_keystore(
     try:
         keystore.decrypt(keystore_password)
     except ValueError:
-        click.echo(load_text(['arg_test_keystore_keystore_password', 'mismatch']))
+        click.echo(load_text(['arg_test_keystore_keystore_password', 'mismatch']), err=True)
         exit(1)
 
     click.echo(load_text(['msg_verification_success']))
