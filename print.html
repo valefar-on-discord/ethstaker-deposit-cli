@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="landing.html"><strong aria-hidden="true">1.</strong> Ethstaker Deposit CLI</a></li><li class="chapter-item expanded "><a href="quick_setup.html"><strong aria-hidden="true">2.</strong> Quick Setup</a></li><li class="chapter-item expanded affix "><li class="part-title">Commands</li><li class="chapter-item expanded "><a href="new_mnemonic.html"><strong aria-hidden="true">3.</strong> New Mnemonic</a></li><li class="chapter-item expanded "><a href="existing_mnemonic.html"><strong aria-hidden="true">4.</strong> Existing Mnemonic</a></li><li class="chapter-item expanded "><a href="generate_bls_to_execution_change.html"><strong aria-hidden="true">5.</strong> Generate BLS to Execution Change</a></li><li class="chapter-item expanded "><a href="exit_transaction_keystore.html"><strong aria-hidden="true">6.</strong> Exit Transaction Keystore</a></li><li class="chapter-item expanded "><a href="exit_transaction_mnemonic.html"><strong aria-hidden="true">7.</strong> Exit Transaction Mnemonic</a></li><li class="chapter-item expanded "><a href="partial_deposit.html"><strong aria-hidden="true">8.</strong> Partial Deposit</a></li><li class="chapter-item expanded affix "><li class="part-title">File formats</li><li class="chapter-item expanded "><a href="keystore_file.html"><strong aria-hidden="true">9.</strong> Keystore</a></li><li class="chapter-item expanded "><a href="deposit_data_file.html"><strong aria-hidden="true">10.</strong> Deposit Data</a></li><li class="chapter-item expanded affix "><li class="part-title">Development</li><li class="chapter-item expanded "><a href="local_development.html"><strong aria-hidden="true">11.</strong> Local Development</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="landing.html"><strong aria-hidden="true">1.</strong> Ethstaker Deposit CLI</a></li><li class="chapter-item expanded "><a href="quick_setup.html"><strong aria-hidden="true">2.</strong> Quick Setup</a></li><li class="chapter-item expanded affix "><li class="part-title">Commands</li><li class="chapter-item expanded "><a href="new_mnemonic.html"><strong aria-hidden="true">3.</strong> New Mnemonic</a></li><li class="chapter-item expanded "><a href="existing_mnemonic.html"><strong aria-hidden="true">4.</strong> Existing Mnemonic</a></li><li class="chapter-item expanded "><a href="generate_bls_to_execution_change.html"><strong aria-hidden="true">5.</strong> Generate BLS to Execution Change</a></li><li class="chapter-item expanded "><a href="exit_transaction_keystore.html"><strong aria-hidden="true">6.</strong> Exit Transaction Keystore</a></li><li class="chapter-item expanded "><a href="exit_transaction_mnemonic.html"><strong aria-hidden="true">7.</strong> Exit Transaction Mnemonic</a></li><li class="chapter-item expanded "><a href="partial_deposit.html"><strong aria-hidden="true">8.</strong> Partial Deposit</a></li><li class="chapter-item expanded "><a href="test_keystore.html"><strong aria-hidden="true">9.</strong> Test Keystore</a></li><li class="chapter-item expanded affix "><li class="part-title">File formats</li><li class="chapter-item expanded "><a href="keystore_file.html"><strong aria-hidden="true">10.</strong> Keystore</a></li><li class="chapter-item expanded "><a href="deposit_data_file.html"><strong aria-hidden="true">11.</strong> Deposit Data</a></li><li class="chapter-item expanded affix "><li class="part-title">Development</li><li class="chapter-item expanded "><a href="local_development.html"><strong aria-hidden="true">12.</strong> Local Development</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -222,7 +222,7 @@
 <p><strong><a href="existing_mnemonic.html">existing-mnemonic</a></strong>: Provide a mnemonic to regenerate validator keys or create new ones.</p>
 </li>
 <li>
-<p><strong><a href="generate_bls_to_execution_change.html">generate-bls-to-execution-change</a></strong>: Update your withdrawal credentials of existing validators. It is <strong>required</strong> to have the corresponding mnemonic.</p>
+<p><strong><a href="generate_bls_to_execution_change.html">generate-bls-to-execution-change</a></strong>: Add a withdrawal address to a validator that does not currently have one. It is <strong>required</strong> to have the corresponding mnemonic.</p>
 </li>
 <li>
 <p><strong><a href="generate_bls_to_execution_change_keystore.html">generate-bls-to-execution-change-keystore</a></strong>: Sign an update withdrawal credentials message using your validator keystore.</p>
@@ -235,6 +235,9 @@
 </li>
 <li>
 <p><strong><a href="partial_deposit.html">partial-deposit</a></strong>: Generate a deposit file with an existing validator key. Can be used to initiate a validator or deposit to an existing validator.</p>
+</li>
+<li>
+<p><strong><a href="test_keystore.html">test-keystore</a></strong>: Verify access to the provided keystore file by attempting to decrypt with the provided keystore password.</p>
 </li>
 </ul>
 <h2 id="canonical-deposit-contract-and-launchpad"><a class="header" href="#canonical-deposit-contract-and-launchpad">Canonical Deposit Contract and Launchpad</a></h2>
@@ -347,13 +350,16 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <p><strong><code>--keystore_password</code></strong>: The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. <span class="warning"></span></p>
 </li>
 <li>
-<p><strong><code>--withdrawal_address</code></strong>: The Ethereum execution address for validator withdrawals.</p>
+<p><strong><code>--withdrawal_address</code></strong>: The Ethereum address that will be used in withdrawal. It typically starts with '0x' followed by 40 hexadecimal characters. Please make sure you have full control over the address you choose here. Once you set a withdrawal address on chain, it cannot be changed.</p>
 </li>
 <li>
-<p><strong><code>--pbkdf2</code></strong>: Will use pbkdf2 key derivation instead of scrypt for generated keystore files as defined in <a href="https://eips.ethereum.org/EIPS/eip-2335#decryption-key">EIP-2335</a>. This can be a good alternative if you intend to work with a large number of keys, as it can improve performance however it is less secure. You should only use this option if you understand the associated risks and have familiarity with encryption.</p>
+<p><strong><code>--pbkdf2</code></strong>: Will use pbkdf2 key encryption instead of scrypt for generated keystore files as defined in <a href="https://eips.ethereum.org/EIPS/eip-2335#decryption-key">EIP-2335</a>. This can be a good alternative if you intend to work with a large number of keys, as it can improve performance. pbkdf2 encryption is, however, less secure than scrypt. You should only use this option if you understand the associated risks and have familiarity with encryption.</p>
 </li>
 <li>
 <p><strong><code>--folder</code></strong>: The folder where keystore and deposit data files will be saved.</p>
+</li>
+<li>
+<p><strong><code>--devnet_chain_setting</code></strong>: The custom chain setting of a devnet or testnet. Note that it will override your <code>--chain</code> choice. This should be a JSON string containing an object with the following keys: network_name, genesis_fork_version, exit_fork_version and genesis_validator_root.</p>
 </li>
 </ul>
 <h2 id="output-files"><a class="header" href="#output-files">Output files</a></h2>
@@ -361,6 +367,8 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <h2 id="example-usage"><a class="header" href="#example-usage">Example Usage</a></h2>
 <pre><code class="language-sh">./deposit new-mnemonic
 </code></pre>
+<h2 id="note"><a class="header" href="#note">Note</a></h2>
+<p>The newly generated mnemonic <strong>must</strong> be written down, on a piece of paper or transferred to steel. The clipboard is cleared when this command finishes. If the mnemonic is lost and the validator does not have a withdrawal address, funds <strong>cannot</strong> be recovered.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="existing-mnemonic"><a class="header" href="#existing-mnemonic">existing-mnemonic</a></h1>
 <div class="warning">
 Including sensitive arguments when executing CLI commands poses a security risk, as these values can be accessible through disk and shell history. This exposure can allow other users, including admins and malicious actors, to gain access to sensitive information, putting your funds at risk.
@@ -388,13 +396,16 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <p><strong><code>--keystore_password</code></strong>: The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. <span class="warning"></span></p>
 </li>
 <li>
-<p><strong><code>--withdrawal_address</code></strong>: The Ethereum execution address for validator withdrawals.</p>
+<p><strong><code>--withdrawal_address</code></strong>: The Ethereum address that will be used in withdrawal. It typically starts with '0x' followed by 40 hexadecimal characters. Please make sure you have full control over the address you choose here. Once you set a withdrawal address on chain, it cannot be changed.</p>
 </li>
 <li>
 <p><strong><code>--pbkdf2</code></strong>: Will use pbkdf2 key derivation instead of scrypt for generated keystore files as defined in <a href="https://eips.ethereum.org/EIPS/eip-2335#decryption-key">EIP-2335</a>. This can be a good alternative if you intend to work with a large number of keys, as it can improve performance however it is less secure. You should only use this option if you understand the associated risks and have familiarity with encryption.</p>
 </li>
 <li>
 <p><strong><code>--folder</code></strong>: The folder where keystore and deposit data files will be saved.</p>
+</li>
+<li>
+<p><strong><code>--devnet_chain_setting</code></strong>: The custom chain setting of a devnet or testnet. Note that it will override your <code>--chain</code> choice. This should be a JSON string containing an object with the following keys: network_name, genesis_fork_version, exit_fork_version and genesis_validator_root.</p>
 </li>
 </ul>
 <h2 id="output-files-1"><a class="header" href="#output-files-1">Output files</a></h2>
@@ -432,10 +443,10 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <p><strong><code>--bls_withdrawal_credentials_list</code></strong>: A list of the old BLS withdrawal credentials of the given validator(s). It is for confirming you are using the correct keys. Split multiple items with whitespaces or commas.</p>
 </li>
 <li>
-<p><strong><code>--withdrawal_address</code></strong>: If this field is set and valid, the given Ethereum execution address will be used to create the withdrawal credentials. Otherwise it will generate withdrawal credentials with the mnemonic-derived withdrawal public key.</p>
+<p><strong><code>--withdrawal_address</code></strong>: The Ethereum address that will be used in withdrawal. It typically starts with '0x' followed by 40 hexadecimal characters. Please make sure you have full control over the address you choose here. Once you set a withdrawal address on chain, it cannot be changed.</p>
 </li>
 <li>
-<p><strong><code>--devnet_chain_setting</code></strong>: The custom chain setting of a devnet or testnet. Note that it will override your <code>--chain</code> choice.</p>
+<p><strong><code>--devnet_chain_setting</code></strong>: The custom chain setting of a devnet or testnet. Note that it will override your <code>--chain</code> choice. This should be a JSON string containing an object with the following keys: network_name, genesis_fork_version, exit_fork_version and genesis_validator_root.</p>
 </li>
 </ul>
 <h2 id="example-usage-2"><a class="header" href="#example-usage-2">Example Usage</a></h2>
@@ -466,6 +477,9 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 </li>
 <li>
 <p><strong><code>--output_folder</code></strong>: The folder path for the <code>signed_exit_transaction-*</code> JSON file.</p>
+</li>
+<li>
+<p><strong><code>--devnet_chain_setting</code></strong>: The custom chain setting of a devnet or testnet. Note that it will override your <code>--chain</code> choice. This should be a JSON string containing an object with the following keys: network_name, genesis_fork_version, exit_fork_version and genesis_validator_root.</p>
 </li>
 </ul>
 <h2 id="example-usage-3"><a class="header" href="#example-usage-3">Example Usage</a></h2>
@@ -500,6 +514,9 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <li>
 <p><strong><code>--output_folder</code></strong>: The folder path for the <code>signed_exit_transaction-*</code> JSON file.</p>
 </li>
+<li>
+<p><strong><code>--devnet_chain_setting</code></strong>: The custom chain setting of a devnet or testnet. Note that it will override your <code>--chain</code> choice. This should be a JSON string containing an object with the following keys: network_name, genesis_fork_version, exit_fork_version and genesis_validator_root.</p>
+</li>
 </ul>
 <h2 id="example-usage-4"><a class="header" href="#example-usage-4">Example Usage</a></h2>
 <pre><code class="language-sh">./deposit exit-transaction-mnemonic
@@ -531,11 +548,32 @@ If you wish to create a validator with 0x00 credentials, you must use the <stron
 <li>
 <p><strong><code>--output_folder</code></strong>: The folder path for the <code>deposit-*</code> JSON file.</p>
 </li>
+<li>
+<p><strong><code>--devnet_chain_setting</code></strong>: The custom chain setting of a devnet or testnet. Note that it will override your <code>--chain</code> choice. This should be a JSON string containing an object with the following keys: network_name, genesis_fork_version, exit_fork_version and genesis_validator_root.</p>
+</li>
 </ul>
 <h2 id="output-file"><a class="header" href="#output-file">Output file</a></h2>
 <p>A successful call to this command will result in one <a href="deposit_data_file.html">deposit data file</a> created.</p>
 <h2 id="example-usage-5"><a class="header" href="#example-usage-5">Example Usage</a></h2>
 <pre><code class="language-sh">./deposit partial-deposit --keystore /path/to/keystore.json
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="test-keystore"><a class="header" href="#test-keystore">test-keystore</a></h1>
+<div class="warning">
+Including sensitive arguments when executing CLI commands poses a security risk, as these values can be accessible through disk and shell history. This exposure can allow other users, including admins and malicious actors, to gain access to sensitive information, putting your funds at risk.
+</div>
+<h2 id="description-6"><a class="header" href="#description-6">Description</a></h2>
+<p>Will verify access to the provided keystore file by attempting to decrypt it with the provided keystore password.</p>
+<h2 id="optional-arguments-6"><a class="header" href="#optional-arguments-6">Optional Arguments</a></h2>
+<ul>
+<li>
+<p><strong><code>--keystore</code></strong>: The keystore file you wish to verify.</p>
+</li>
+<li>
+<p><strong><code>--keystore_password</code></strong>: The password used to attempt decryption of the provided keystore file. Note: It is not your mnemonic password. <span class="warning"></span></p>
+</li>
+</ul>
+<h2 id="example-usage-6"><a class="header" href="#example-usage-6">Example Usage</a></h2>
+<pre><code class="language-sh">./deposit test-keystore --keystore /path/to/keystore.json
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="keystore-file"><a class="header" href="#keystore-file">Keystore file</a></h1>
 <p>A keystore file is created when calling the <strong><a href="new_mnemonic.html">new-mnemonic</a></strong> or the <strong><a href="existing_mnemonic.html">existing-mnemonic</a></strong> command.</p>
