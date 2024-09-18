@@ -1,4 +1,5 @@
 import os
+from ethstaker_deposit.exceptions import ValidationError
 import pytest
 import json
 from typing import (
@@ -25,6 +26,10 @@ test_vector_filefolder = os.path.join('tests', 'test_key_handling',
                                       'test_key_derivation', 'test_vectors', 'mnemonic.json')
 with open(test_vector_filefolder, 'r', encoding='utf-8') as f:
     test_vectors = json.load(f)
+multi_lang_mnemonic_filefolder = os.path.join('tests', 'test_key_handling',
+                                              'test_key_derivation', 'test_vectors', 'multi_lang_mnemonic.json')
+with open(multi_lang_mnemonic_filefolder, 'r', encoding='utf-8') as f:
+    multi_lang_mnemonics = json.load(f)
 
 
 @pytest.mark.parametrize(
@@ -48,6 +53,15 @@ def test_bip39(language: str, test: Sequence[str]) -> None:
 )
 def test_reconstruct_mnemonic(test_mnemonic: str) -> None:
     assert reconstruct_mnemonic(test_mnemonic, WORD_LISTS_PATH) is not None
+
+
+@pytest.mark.parametrize(
+    'test_mnemonic',
+    [multi_lang_test_vectors for multi_lang_test_vectors in multi_lang_mnemonics]
+)
+def test_multi_lang_mnemonics(test_mnemonic: str) -> None:
+    with pytest.raises(ValidationError):
+        reconstruct_mnemonic(test_mnemonic, WORD_LISTS_PATH)
 
 
 def abbreviate_mnemonic(mnemonic: str) -> str:
