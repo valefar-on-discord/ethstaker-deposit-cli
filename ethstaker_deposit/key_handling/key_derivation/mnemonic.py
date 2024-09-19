@@ -7,7 +7,7 @@ from typing import (
     Sequence,
 )
 
-from ethstaker_deposit.exceptions import ValidationError
+from ethstaker_deposit.exceptions import MultiLanguageError
 from ethstaker_deposit.utils.constants import (
     MNEMONIC_LANG_OPTIONS,
 )
@@ -111,15 +111,16 @@ def abbreviate_words(words: Sequence[str]) -> list[str]:
     return [normalize('NFKC', word)[:4] for word in words]
 
 
-def reconstruct_mnemonic(mnemonic: str, words_path: str) -> Optional[str]:
+def reconstruct_mnemonic(mnemonic: str, words_path: str, language: Optional[str] = None) -> Optional[str]:
     """
     Given a mnemonic, a reconstructed the full version (incase the abbreviated words were used)
     then verify it against its own checksum
     """
     try:
-        languages = determine_mnemonic_language(mnemonic, words_path)
+        languages = [language] if language else determine_mnemonic_language(mnemonic, words_path)
     except ValueError:
         return None
+    valid_languages = []
     reconstructed_mnemonic = None
     for language in languages:
         try:
@@ -135,17 +136,16 @@ def reconstruct_mnemonic(mnemonic: str, words_path: str) -> Optional[str]:
             entropy_bits = entropy.to_bytes(checksum_length * 4, 'big')
             full_word_list = _get_word_list(language, words_path)
             if _get_checksum(entropy_bits) == checksum:
-                """
-                This check guarantees that only one language has a valid mnemonic.
-                It is needed to ensure abbrivated words aren't valid in multiple languages
-                """
-                if reconstructed_mnemonic is not None:
-                    raise ValidationError("This mnemonic abbreviated form is available in multiple languages.")
+                valid_languages.append(language)
                 reconstructed_mnemonic = ' '.join([_index_to_word(full_word_list, index) for index in word_indices])
             else:
                 pass
         except ValueError:
             pass
+
+    if len(valid_languages) > 1:
+        raise MultiLanguageError(valid_languages)
+
     return reconstructed_mnemonic
 
 

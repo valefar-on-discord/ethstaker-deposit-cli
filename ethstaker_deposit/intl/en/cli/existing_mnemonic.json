@@ -1,6 +1,7 @@
 {
     "validate_mnemonic": {
-        "err_invalid_mnemonic": "That is not a valid mnemonic, please check for typos."
+        "err_invalid_mnemonic": "That is not a valid mnemonic, please check for typos.",
+        "arg_mnemonic_language": "Please select from the following languages"
     },
     "existing_mnemonic": {
         "arg_existing_mnemonic": {

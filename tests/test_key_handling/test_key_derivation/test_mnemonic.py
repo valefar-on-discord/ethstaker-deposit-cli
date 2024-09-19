@@ -1,5 +1,5 @@
 import os
-from ethstaker_deposit.exceptions import ValidationError
+from ethstaker_deposit.exceptions import MultiLanguageError
 import pytest
 import json
 from typing import (
@@ -60,7 +60,7 @@ def test_reconstruct_mnemonic(test_mnemonic: str) -> None:
     [multi_lang_test_vectors for multi_lang_test_vectors in multi_lang_mnemonics]
 )
 def test_multi_lang_mnemonics(test_mnemonic: str) -> None:
-    with pytest.raises(ValidationError):
+    with pytest.raises(MultiLanguageError):
         reconstruct_mnemonic(test_mnemonic, WORD_LISTS_PATH)
 
 
