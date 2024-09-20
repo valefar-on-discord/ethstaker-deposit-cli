@@ -22,3 +22,4 @@
 # Development
 
 - [Local Development](local_development.md)
+- [Release Process](release_process.md)
