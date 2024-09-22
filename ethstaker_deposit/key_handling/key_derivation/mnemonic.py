@@ -110,13 +110,13 @@ def abbreviate_words(words: Sequence[str]) -> list[str]:
     return [normalize('NFKC', word)[:4] for word in words]
 
 
-def reconstruct_mnemonic(mnemonic: str, words_path: str) -> Optional[str]:
+def reconstruct_mnemonic(mnemonic: str, words_path: str, mnemonic_language: Optional[str]) -> Optional[str]:
     """
     Given a mnemonic, a reconstructed the full version (incase the abbreviated words were used)
     then verify it against its own checksum
     """
     try:
-        languages = determine_mnemonic_language(mnemonic, words_path)
+        languages = [mnemonic_language] if mnemonic_language else determine_mnemonic_language(mnemonic, words_path)
     except ValueError:
         return None
     reconstructed_mnemonic = None

@@ -10,13 +10,14 @@ from ethstaker_deposit.key_handling.key_derivation.mnemonic import (
     reconstruct_mnemonic,
 )
 from ethstaker_deposit.utils.constants import (
+    MNEMONIC_LANG_OPTIONS,
     WORD_LISTS_PATH,
 )
 from ethstaker_deposit.utils.click import (
     captive_prompt_callback,
     jit_option,
 )
-from ethstaker_deposit.utils.intl import load_text
+from ethstaker_deposit.utils.intl import fuzzy_reverse_dict_lookup, load_text
 from ethstaker_deposit.utils.validation import validate_int_range
 from .generate_keys import (
     generate_keys,
@@ -51,6 +52,13 @@ def load_mnemonic_arguments_decorator(function: Callable[..., Any]) -> Callable[
             param_decls='--mnemonic_password',
             prompt=False,
         ),
+        jit_option(
+            callback=lambda _, __, language: fuzzy_reverse_dict_lookup(language, MNEMONIC_LANG_OPTIONS),
+            default=None,
+            help=lambda: "Replace me",
+            param_decls='--mnemonic_language',
+            prompt=None,
+        ),
     ]
     for decorator in reversed(decorators):
         function = decorator(function)
@@ -58,7 +66,8 @@ def load_mnemonic_arguments_decorator(function: Callable[..., Any]) -> Callable[
 
 
 def validate_mnemonic(ctx: click.Context, param: Any, mnemonic: str) -> str:
-    mnemonic = reconstruct_mnemonic(mnemonic, WORD_LISTS_PATH)
+    mnemonic_language = ctx.params.get('mnemonic_language')
+    mnemonic = reconstruct_mnemonic(mnemonic, WORD_LISTS_PATH, mnemonic_language)
     if mnemonic is not None:
         return mnemonic
     else:
