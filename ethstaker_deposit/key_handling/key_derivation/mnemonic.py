@@ -1,3 +1,4 @@
+from collections import defaultdict
 import os
 from unicodedata import normalize
 from secrets import randbits
@@ -17,6 +18,7 @@ from ethstaker_deposit.utils.crypto import (
 from ethstaker_deposit.utils.file_handling import (
     resource_path,
 )
+from ethstaker_deposit.utils.intl import load_text
 
 
 def _get_word_list(language: str, path: str) -> Sequence[str]:
@@ -67,11 +69,20 @@ def determine_mnemonic_language(mnemonic: str, words_path: str) -> Sequence[str]
     There are collisions between word-lists, so multiple candidate languages are returned.
     """
     languages = MNEMONIC_LANG_OPTIONS.keys()
-    word_language_map = {word: lang for lang in languages for word in _get_word_list(lang, words_path)}
+    word_language_map = defaultdict(list)
+    for lang, word in ((lang, word) for lang in languages for word in _get_word_list(lang, words_path)):
+        word_language_map[word].append(lang)
+
     try:
         mnemonic_list = [normalize('NFKC', word)[:4] for word in mnemonic.lower().split(' ')]
-        word_languages = [[lang for word, lang in word_language_map.items() if normalize('NFKC', word)[:4] == abbrev]
-                          for abbrev in mnemonic_list]
+        word_languages = [
+            [
+                lang for word, langs in word_language_map.items()
+                for lang in langs
+                if normalize('NFKC', word)[:4] == abbrev
+            ]
+            for abbrev in mnemonic_list
+        ]
         return list(set(sum(word_languages, [])))
     except KeyError:
         raise ValueError('Word not found in mnemonic word lists for any language.')
@@ -128,7 +139,7 @@ def reconstruct_mnemonic(mnemonic: str, words_path: str) -> Optional[str]:
                 It is needed to ensure abbrivated words aren't valid in multiple languages
                 """
                 if reconstructed_mnemonic is not None:
-                    raise ValidationError("This mnemonic abbreviated form is available in multiple languages.")
+                    raise ValidationError(load_text(['err_multi_language']))
                 reconstructed_mnemonic = ' '.join([_index_to_word(full_word_list, index) for index in word_indices])
             else:
                 pass

@@ -1,0 +1,5 @@
+{
+  "reconstruct_mnemonic": {
+      "err_multi_language": "This mnemonic abbreviated form is available in multiple languages. Please use the --mnemonic_language argument and specify the language of the mnemonic."
+  }
+}
