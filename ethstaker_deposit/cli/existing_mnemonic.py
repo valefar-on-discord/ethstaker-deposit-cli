@@ -34,11 +34,12 @@ def load_mnemonic_arguments_decorator(function: Callable[..., Any]) -> Callable[
     '''
     decorators = [
         jit_option(
-            callback=captive_prompt_callback(
-                lambda mnemonic: validate_mnemonic(mnemonic=mnemonic),
-                prompt=lambda: load_text(['arg_mnemonic', 'prompt'], func='existing_mnemonic'),
-                prompt_if_none=True,
-            ),
+            callback=lambda c, _, mnemonic:
+                captive_prompt_callback(
+                    lambda mnemonic: validate_mnemonic(mnemonic=mnemonic, language=c.params.get('mnemonic_language')),
+                    prompt=lambda: load_text(['arg_mnemonic', 'prompt'], func='existing_mnemonic'),
+                    prompt_if_none=True,
+                )(c, _, mnemonic),
             help=lambda: load_text(['arg_mnemonic', 'help'], func='existing_mnemonic'),
             param_decls='--mnemonic',
             prompt=False,
@@ -57,6 +58,13 @@ def load_mnemonic_arguments_decorator(function: Callable[..., Any]) -> Callable[
             hidden=True,
             param_decls='--mnemonic_password',
             prompt=False,
+        ),
+        jit_option(
+            callback=validate_mnemonic_language,
+            default=None,
+            help=lambda: load_text(['arg_mnemonic_language', 'help'], func='existing_mnemonic'),
+            param_decls='--mnemonic_language',
+            prompt=None,
         ),
     ]
     for decorator in reversed(decorators):
@@ -81,6 +89,10 @@ def validate_mnemonic(mnemonic: str, language: Optional[str] = None) -> str:
         return reconstructed_mnemonic
     else:
         raise ValidationError(load_text(['err_invalid_mnemonic']))
+
+
+def validate_mnemonic_language(ctx: click.Context, param: Any, language: str) -> Optional[str]:
+    return fuzzy_reverse_dict_lookup(language, MNEMONIC_LANG_OPTIONS) if language else None
 
 
 @click.command(
