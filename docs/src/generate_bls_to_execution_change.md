@@ -13,7 +13,7 @@ Generates a BLS to execution address change message. This is used to add a withd
 
 - **`--mnemonic`**: The mnemonic you used to create withdrawal credentials. <span class="warning"></span>
 
-- **`--mnemonic_language`**: The language of your mnemonic. If this is not provided we will attempt to determine it based on the mnemonic provided.
+- **`--mnemonic_language`**: The language of your mnemonic. If this is not provided we will attempt to determine it based on the mnemonic.
 
 - **`--mnemonic_password`**: The mnemonic password you used in your key generation. Note: It's not the keystore password. <span class="warning"></span>
 

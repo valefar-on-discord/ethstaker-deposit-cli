@@ -11,7 +11,7 @@ Creates an exit transaction using a mnemonic phrase.
 
 - **`--mnemonic`**: The mnemonic you used during key generation. <span class="warning"></span>
 
-- **`--mnemonic_language`**: The language of your mnemonic. If this is not provided we will attempt to determine it based on the mnemonic provided.
+- **`--mnemonic_language`**: The language of your mnemonic. If this is not provided we will attempt to determine it based on the mnemonic.
 
 - **`--mnemonic_password`**: The mnemonic password you used in your key generation. Note: It's not the keystore password. <span class="warning"></span>
 

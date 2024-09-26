@@ -13,6 +13,7 @@ from ethstaker_deposit.key_handling.key_derivation.mnemonic import (
     _index_to_word,
     _get_word_list,
     abbreviate_words,
+    determine_mnemonic_language,
     get_seed,
     get_mnemonic,
     reconstruct_mnemonic,
@@ -99,3 +100,22 @@ def test_get_word(language: str, index: int, valid: bool) -> None:
     else:
         with pytest.raises(IndexError):
             _index_to_word(word_list=word_list, index=index)
+
+
+@pytest.mark.parametrize(
+    'mnemonic,output',
+    [
+        ('塞 香 廳 閉 勞 秦 可 貫 智 閣 慣 藝', ['chinese_simplified', 'chinese_traditional']),
+        ('zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo when', ['english']),
+    ]
+)
+def test_determine_mnemonic_language(mnemonic, output) -> None:
+    languages = determine_mnemonic_language(mnemonic, WORD_LISTS_PATH)
+    assert set(languages) == set(output)
+
+
+def test_determine_mnemonic_language_error() -> None:
+    try:
+        determine_mnemonic_language('these are not words', WORD_LISTS_PATH)
+    except ValueError as e:
+        assert e
