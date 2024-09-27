@@ -144,7 +144,7 @@ def reconstruct_mnemonic(mnemonic: str, words_path: str, language: Optional[str]
             pass
 
     if len(valid_languages) > 1:
-        valid_languages.sort()
+        valid_languages = sorted(valid_languages, key=lambda x: list(MNEMONIC_LANG_OPTIONS.keys()).index(x))
         raise MultiLanguageError(valid_languages)
 
     return reconstructed_mnemonic
