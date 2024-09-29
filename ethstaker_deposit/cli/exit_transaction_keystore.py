@@ -1,5 +1,6 @@
 import click
 import os
+import sys
 import time
 from typing import Any, Optional
 
@@ -117,7 +118,7 @@ def exit_transaction_keystore(
         secret_bytes = keystore.decrypt(keystore_password)
     except ValueError:
         click.echo(load_text(['arg_exit_transaction_keystore_keystore_password', 'mismatch']), err=True)
-        exit(1)
+        sys.exit(1)
 
     signing_key = int.from_bytes(secret_bytes, 'big')
 

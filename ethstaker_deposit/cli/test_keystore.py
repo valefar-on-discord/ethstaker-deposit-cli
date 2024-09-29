@@ -1,4 +1,5 @@
 import click
+import sys
 from typing import Any
 
 from ethstaker_deposit.key_handling.keystore import Keystore
@@ -54,7 +55,7 @@ def test_keystore(
         keystore.decrypt(keystore_password)
     except ValueError:
         click.echo(load_text(['arg_test_keystore_keystore_password', 'mismatch']), err=True)
-        exit(1)
+        sys.exit(1)
 
     click.echo(load_text(['msg_verification_success']))
     if not config.non_interactive:

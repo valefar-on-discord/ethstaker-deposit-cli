@@ -1,6 +1,7 @@
 import json
 import click
 import os
+import sys
 import time
 
 from eth_typing import HexAddress
@@ -139,7 +140,7 @@ def partial_deposit(
         secret_bytes = keystore.decrypt(keystore_password)
     except ValueError:
         click.echo(load_text(['arg_partial_deposit_keystore_password', 'mismatch']), err=True)
-        exit(1)
+        sys.exit(1)
 
     signing_key = int.from_bytes(secret_bytes, 'big')
 

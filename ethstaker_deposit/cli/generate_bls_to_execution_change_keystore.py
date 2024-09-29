@@ -1,6 +1,7 @@
-import os
-import time
 import click
+import os
+import sys
+import time
 from typing import Any, Optional
 
 from eth_typing import HexAddress
@@ -132,7 +133,7 @@ def generate_bls_to_execution_change_keystore(
         secret_bytes = keystore.decrypt(keystore_password)
     except ValueError:
         click.echo(load_text(['arg_bls_to_execution_changes_keystore_keystore_password', 'mismatch']), err=True)
-        exit(1)
+        sys.exit(1)
 
     signing_key = int.from_bytes(secret_bytes, 'big')
 
