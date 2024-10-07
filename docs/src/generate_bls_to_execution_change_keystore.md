@@ -31,5 +31,5 @@ A successful call to this command will result in one [BLS to Execution Change Ke
 ## Example Usage
 
 ```sh
-./deposit generate-bls-to-execution-change
+./deposit generate-bls-to-execution-change-keystore
 ```
