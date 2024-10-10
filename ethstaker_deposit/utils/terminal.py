@@ -27,13 +27,13 @@ def clear_terminal() -> None:
         else:
             subprocess.run('cls', shell=True)
     elif sys.platform == 'linux' or sys.platform == 'darwin':
-        if shutil.which('tput'):
-            subprocess.run(['tput', 'reset'], env=clean_env)
-        elif shutil.which('reset'):
-            subprocess.run(['reset'], env=clean_env)
-        elif shutil.which('clear'):
+        if shutil.which('clear'):
             subprocess.run(['clear'], env=clean_env)
         else:
             click.clear()
+        if shutil.which('tput'):
+            subprocess.run(['tput', 'reset'], env=clean_env)
+        if shutil.which('reset'):
+            subprocess.run(['reset'], env=clean_env)
     else:
         click.clear()
