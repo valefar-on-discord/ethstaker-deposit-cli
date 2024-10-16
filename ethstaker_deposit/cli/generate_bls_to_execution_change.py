@@ -118,7 +118,7 @@ FUNC_NAME = 'generate_bls_to_execution_change'
     ),
     help=lambda: load_text(['arg_bls_withdrawal_credentials_list', 'help'], func=FUNC_NAME),
     param_decls='--bls_withdrawal_credentials_list',
-    prompt=False,  # the callback handles the prompt, to avoid second callback with bytes
+    prompt=False,  # the  callback handles the prompt, to avoid second callback with bytes
 )
 @jit_option(
     callback=captive_prompt_callback(
