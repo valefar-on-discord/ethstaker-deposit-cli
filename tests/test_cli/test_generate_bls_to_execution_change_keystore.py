@@ -51,7 +51,7 @@ def test_bls_change_keystore() -> None:
         '--chain', chain,
         '--keystore', keystore_filepath,
         '--keystore_password', keystore_password,
-        '--validator_index', '1',
+        '--validator_index', '2',
         '--withdrawal_address', '0xcd60A5f152724480c3a95E4Ff4dacEEf4074854d',
     ]
     result = runner.invoke(cli, arguments)
