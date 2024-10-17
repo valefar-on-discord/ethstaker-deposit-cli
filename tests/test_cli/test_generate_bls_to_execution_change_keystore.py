@@ -67,7 +67,7 @@ def test_bls_change_keystore() -> None:
     json_data = read_json_file(changes_folder_path, change_files[0])
 
     assert json_data['message']['to_execution_address'] == '0xcd60a5f152724480c3a95e4ff4daceef4074854d'
-    assert json_data['message']['validator_index'] == 2
+    assert json_data['message']['validator_index'] == 1
     assert json_data['signature']
 
     verify_file_permission(os, folder_path=changes_folder_path, files=change_files)
