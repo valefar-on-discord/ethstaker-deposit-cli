@@ -37,3 +37,7 @@ A successful call to this command will result in one or many [keystore files](ke
 ```sh
 ./deposit existing-mnemonic
 ```
+
+## Note
+
+To make a deposit for a different amount other than 32 ETH, you need to have an existing keystore file or create one by using either the above command or **[new-mnemonic](new_mnemonic.md)**. Then, use the **[partial-deposit](partial_deposit.md)** command to specify the desired amount for each validator.

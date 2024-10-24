@@ -3,7 +3,7 @@
 {{#include ./snippet/warning_message.md}}
 
 ## Description
-Creates a deposit file with an existing validator key. Can be used to initiate a validator or deposit to an existing validator.
+Creates a deposit file with an existing validator key. A validator key can be created using the **[new-mnemonic](new_mnemonic.md)** or the **[existing-mnemonic](existing_mnemonic.md)** commands. Can be used to initiate a validator or deposit to an existing validator.
 If you wish to create a validator with 0x00 credentials, you must use the **[new-mnemonic](new_mnemonic.md)** or the **[existing-mnemonic](existing_mnemonic.md)** command.
 
 ## Optional Arguments
