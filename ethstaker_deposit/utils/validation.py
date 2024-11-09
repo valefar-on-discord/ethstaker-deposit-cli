@@ -6,6 +6,9 @@ import sys
 import concurrent.futures
 from typing import Any, Dict, Sequence, Optional
 
+from click.types import BoolParamType
+from click.exceptions import BadParameter
+
 from eth_typing import (
     BLSPubkey,
     BLSSignature,
@@ -183,7 +186,19 @@ def validate_withdrawal_address(cts: click.Context, param: Any, address: str, re
     return normalized_address
 
 
-def validate_partial_deposit_amount(amount: str) -> int:
+def validate_yesno(ctx: click.Context, param: Any, value: str) -> bool:
+    '''
+    Verifies that a value is part of the bool values accepted by click. The string values “1”, “true”,
+    “t”, “yes”, “y”, and “on” convert to True. “0”, “false”, “f”, “no”, “n”, and “off” convert to False.
+    '''
+    try:
+        param = BoolParamType()
+        return param.convert(value, param, ctx)
+    except BadParameter:
+        raise ValidationError(load_text(['err_invalid_bool_value']))
+
+
+def validate_deposit_amount(amount: str) -> int:
     '''
     Verifies that `amount` is a valid gwei denomination and 1 ether <= amount <= MAX_DEPOSIT_AMOUNT gwei
     Amount is expected to be in ether and the returned value will be converted to gwei and represented as an int

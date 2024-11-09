@@ -22,8 +22,15 @@ from ethstaker_deposit.utils.click import (
     captive_prompt_callback,
     choice_prompt_func,
     jit_option,
+    prompt_if_none,
+    prompt_if_other_is_none,
+    prompt_if_other_exists,
 )
-from ethstaker_deposit.utils.constants import DEFAULT_PARTIAL_DEPOSIT_FOLDER_NAME, EXECUTION_ADDRESS_WITHDRAWAL_PREFIX
+from ethstaker_deposit.utils.constants import (
+    DEFAULT_PARTIAL_DEPOSIT_FOLDER_NAME,
+    EXECUTION_ADDRESS_WITHDRAWAL_PREFIX,
+    COMPOUNDING_WITHDRAWAL_PREFIX,
+)
 from ethstaker_deposit.utils.deposit import export_deposit_data_json
 from ethstaker_deposit.utils.intl import (
     closest_match,
@@ -38,8 +45,9 @@ from ethstaker_deposit.utils.ssz import (
 from ethstaker_deposit.utils.validation import (
     validate_deposit,
     validate_keystore_file,
-    validate_partial_deposit_amount,
+    validate_deposit_amount,
     validate_withdrawal_address,
+    validate_yesno,
     validate_devnet_chain_setting,
 )
 
@@ -57,7 +65,7 @@ FUNC_NAME = 'partial_deposit'
             lambda: load_text(['arg_partial_deposit_chain', 'prompt'], func=FUNC_NAME),
             ALL_CHAIN_KEYS
         ),
-        prompt_if_other_is_none='devnet_chain_setting',
+        prompt_if=prompt_if_other_is_none('devnet_chain_setting'),
         default=MAINNET,
     ),
     default=MAINNET,
@@ -69,7 +77,7 @@ FUNC_NAME = 'partial_deposit'
     callback=captive_prompt_callback(
         lambda file: validate_keystore_file(file),
         lambda: load_text(['arg_partial_deposit_keystore', 'prompt'], func=FUNC_NAME),
-        prompt_if_none=True,
+        prompt_if=prompt_if_none,
     ),
     help=lambda: load_text(['arg_partial_deposit_keystore', 'help'], func=FUNC_NAME),
     param_decls='--keystore',
@@ -90,10 +98,10 @@ FUNC_NAME = 'partial_deposit'
 )
 @jit_option(
     callback=captive_prompt_callback(
-        lambda amount: validate_partial_deposit_amount(amount),
+        lambda amount: validate_deposit_amount(amount),
         lambda: load_text(['arg_partial_deposit_amount', 'prompt'], func=FUNC_NAME),
         default="32",
-        prompt_if_none=True,
+        prompt_if=prompt_if_none,
     ),
     default="32",
     help=lambda: load_text(['arg_partial_deposit_amount', 'help'], func=FUNC_NAME),
@@ -106,11 +114,25 @@ FUNC_NAME = 'partial_deposit'
         lambda: load_text(['arg_withdrawal_address', 'prompt'], func=FUNC_NAME),
         lambda: load_text(['arg_withdrawal_address', 'confirm'], func=FUNC_NAME),
         lambda: load_text(['arg_withdrawal_address', 'mismatch'], func=FUNC_NAME),
-        prompt_if_none=True,
+        prompt_if=prompt_if_none,
     ),
     help=lambda: load_text(['arg_withdrawal_address', 'help'], func=FUNC_NAME),
     param_decls=['--withdrawal_address', '--execution_address', '--eth1_withdrawal_credentials'],
     prompt=False,  # the callback handles the prompt
+)
+@jit_option(
+    callback=captive_prompt_callback(
+        lambda value: validate_yesno(None, None, value),
+        lambda: load_text(['arg_compounding', 'prompt'], func=FUNC_NAME),
+        default="False",
+        prompt_if=prompt_if_other_exists('withdrawal_address'),
+    ),
+    default=False,
+    help=lambda: load_text(['arg_compounding', 'help'], func=FUNC_NAME),
+    param_decls='--compounding/--regular-withdrawal',
+    prompt=False,  # the callback handles the prompt
+    type=bool,
+    show_default=True,
 )
 @jit_option(
     default=os.getcwd(),
@@ -133,6 +155,7 @@ def partial_deposit(
         keystore_password: str,
         amount: int,
         withdrawal_address: HexAddress,
+        compounding: bool,
         output_folder: str,
         devnet_chain_setting: Optional[BaseChainSetting],
         **kwargs: Any) -> None:
@@ -147,7 +170,11 @@ def partial_deposit(
     # Get chain setting
     chain_setting = devnet_chain_setting if devnet_chain_setting is not None else get_chain_setting(chain)
 
-    withdrawal_credentials = EXECUTION_ADDRESS_WITHDRAWAL_PREFIX
+    if compounding:
+        withdrawal_credentials = COMPOUNDING_WITHDRAWAL_PREFIX
+    else:
+        withdrawal_credentials = EXECUTION_ADDRESS_WITHDRAWAL_PREFIX
+
     withdrawal_credentials += b'\x00' * 11
     withdrawal_credentials += to_canonical_address(withdrawal_address)
 
