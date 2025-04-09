@@ -34,8 +34,8 @@ Depositing to the wrong address **will** lose you your ETH.
   - [Launchpad](https://hoodi.launchpad.ethereum.org/)
 
 - Gnosis mainnet
- - Deposit address: [0x0B98057eA310F4d31F2a452B414647007d1645d9](https://gnosis.blockscout.com/address/0x0B98057eA310F4d31F2a452B414647007d1645d9)
- - [Gnosis Beacon Chain deposit UI](https://deposit.gnosischain.com/)
+  - Deposit address: [0x0B98057eA310F4d31F2a452B414647007d1645d9](https://gnosis.blockscout.com/address/0x0B98057eA310F4d31F2a452B414647007d1645d9)
+  - [Gnosis Beacon Chain deposit UI](https://deposit.gnosischain.com/)
 - Chiado testnet
- - Deposit address: [0xb97036A26259B7147018913bD58a774cf91acf25](https://gnosis-chiado.blockscout.com/address/0xb97036A26259B7147018913bD58a774cf91acf25)
- - [Gnosis Beacon Chain deposit UI](https://deposit.gnosischain.com/)
+  - Deposit address: [0xb97036A26259B7147018913bD58a774cf91acf25](https://gnosis-chiado.blockscout.com/address/0xb97036A26259B7147018913bD58a774cf91acf25)
+  - [Gnosis Beacon Chain deposit UI](https://deposit.gnosischain.com/)
