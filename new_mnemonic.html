@@ -178,14 +178,14 @@
 Including sensitive arguments when executing CLI commands poses a security risk, as these values can be accessible through disk and shell history. This exposure can allow other users, including admins and malicious actors, to gain access to sensitive information, putting your funds at risk.
 </div>
 <h2 id="description"><a class="header" href="#description">Description</a></h2>
-<p>Generates a new BIP-39 mnemonic along with validator keystore and deposit files depending on how many validators you wish to create.</p>
+<p>Generates a new random BIP-39 mnemonic along with validator keystore and deposit files depending on how many validators you wish to create.</p>
 <h2 id="optional-arguments"><a class="header" href="#optional-arguments">Optional Arguments</a></h2>
 <ul>
 <li>
 <p><strong><code>--mnemonic_language</code></strong>: The language of the BIP-39 mnemonic. Options are: 'chinese_simplified', 'chinese_traditional', 'czech', 'english', 'french', 'italian', 'japanese', 'korean', 'portuguese', 'spanish'.</p>
 </li>
 <li>
-<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'holesky', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
+<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
 </li>
 <li>
 <p><strong><code>--num_validators</code></strong>: Number of validators to create.</p>

@@ -284,7 +284,7 @@ Please be sure that your ETH is deposited only to this deposit contract address,
 <p>This guide will walk you through the steps to download and set up the <code>ethstaker-deposit-cli</code> for your operating system.</p>
 <p><strong>Build requirements</strong></p>
 <ul>
-<li><a href="https://www.python.org/about/gettingstarted/">Python <strong>3.9+</strong></a></li>
+<li><a href="https://www.python.org/about/gettingstarted/">Python <strong>3.10+</strong></a></li>
 <li><a href="https://pip.pypa.io/en/stable/installing/">pip3</a></li>
 </ul>
 <h2 id="step-1-download-the-latest-release"><a class="header" href="#step-1-download-the-latest-release">Step 1: Download the Latest Release</a></h2>
@@ -360,7 +360,7 @@ Please be sure that your ETH is deposited only to this deposit contract address,
 <ol>
 <li>
 <p><strong>Python version checking</strong></p>
-<p>Ensure you are using Python version &gt;= Python3.9:</p>
+<p>Ensure you are using Python version &gt;= Python3.10:</p>
 <pre><code class="language-sh">python3 -V
 </code></pre>
 </li>
@@ -392,7 +392,7 @@ Please be sure that your ETH is deposited only to this deposit contract address,
 <ol>
 <li>
 <p><strong>Python version checking</strong></p>
-<p>Ensure you are using Python version &gt;= Python3.9:</p>
+<p>Ensure you are using Python version &gt;= Python3.10:</p>
 <pre><code class="language-sh">python3 -V
 </code></pre>
 </li>
@@ -440,8 +440,8 @@ source .venv/bin/activate
 <p>You can also run the tool with optional arguments:</p>
 <pre><code class="language-sh">docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ghcr.io/ethstaker/ethstaker-deposit-cli:latest new-mnemonic --num_validators=&lt;NUM_VALIDATORS&gt; --mnemonic_language=english
 </code></pre>
-<p>Example for 1 validator on the <a href="https://holesky.launchpad.ethereum.org/">Holesky testnet</a> using english:</p>
-<pre><code class="language-sh">docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ghcr.io/ethstaker/ethstaker-deposit-cli:latest new-mnemonic --num_validators=1 --mnemonic_language=english --chain=holesky
+<p>Example for 1 validator on the <a href="https://hoodi.launchpad.ethereum.org/">Hoodi testnet</a> using english:</p>
+<pre><code class="language-sh">docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ghcr.io/ethstaker/ethstaker-deposit-cli:latest new-mnemonic --num_validators=1 --mnemonic_language=english --chain=hoodi
 </code></pre>
 </li>
 </ol>
@@ -461,8 +461,8 @@ source .venv/bin/activate
 <p>You can also run the tool with optional arguments:</p>
 <pre><code class="language-sh">docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethstaker/ethstaker-deposit-cli new-mnemonic --num_validators=&lt;NUM_VALIDATORS&gt; --mnemonic_language=english
 </code></pre>
-<p>Example for 1 validator on the <a href="https://holesky.launchpad.ethereum.org/">Holesky testnet</a> using english:</p>
-<pre><code class="language-sh">docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethstaker/ethstaker-deposit-cli new-mnemonic --num_validators=1 --mnemonic_language=english --chain=holesky
+<p>Example for 1 validator on the <a href="https://hoodi.launchpad.ethereum.org/">Hoodi testnet</a> using english:</p>
+<pre><code class="language-sh">docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethstaker/ethstaker-deposit-cli new-mnemonic --num_validators=1 --mnemonic_language=english --chain=hoodi
 </code></pre>
 </li>
 </ol>
@@ -504,7 +504,7 @@ source .venv/bin/activate
 <ol>
 <li>
 <p><strong>Python version checking</strong></p>
-<p>Ensure you are using Python version &gt;= Python3.9 (Assume that you've installed Python 3 as the main Python):</p>
+<p>Ensure you are using Python version &gt;= Python3.10 (Assume that you've installed Python 3 as the main Python):</p>
 <pre><code class="language-cmd">python -V
 </code></pre>
 </li>
@@ -538,14 +538,14 @@ source .venv/bin/activate
 Including sensitive arguments when executing CLI commands poses a security risk, as these values can be accessible through disk and shell history. This exposure can allow other users, including admins and malicious actors, to gain access to sensitive information, putting your funds at risk.
 </div>
 <h2 id="description"><a class="header" href="#description">Description</a></h2>
-<p>Generates a new BIP-39 mnemonic along with validator keystore and deposit files depending on how many validators you wish to create.</p>
+<p>Generates a new random BIP-39 mnemonic along with validator keystore and deposit files depending on how many validators you wish to create.</p>
 <h2 id="optional-arguments"><a class="header" href="#optional-arguments">Optional Arguments</a></h2>
 <ul>
 <li>
 <p><strong><code>--mnemonic_language</code></strong>: The language of the BIP-39 mnemonic. Options are: 'chinese_simplified', 'chinese_traditional', 'czech', 'english', 'french', 'italian', 'japanese', 'korean', 'portuguese', 'spanish'.</p>
 </li>
 <li>
-<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'holesky', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
+<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
 </li>
 <li>
 <p><strong><code>--num_validators</code></strong>: Number of validators to create.</p>
@@ -589,7 +589,7 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <h2 id="optional-arguments-1"><a class="header" href="#optional-arguments-1">Optional Arguments</a></h2>
 <ul>
 <li>
-<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'holesky', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
+<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
 </li>
 <li>
 <p><strong><code>--mnemonic</code></strong>: The mnemonic you used to create withdrawal credentials. <span class="warning"></span></p>
@@ -647,7 +647,7 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <p><strong><code>--bls_to_execution_changes_folder</code></strong>: The path to store the change JSON file.</p>
 </li>
 <li>
-<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'holesky', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
+<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
 </li>
 <li>
 <p><strong><code>--mnemonic</code></strong>: The mnemonic you used to create withdrawal credentials. <span class="warning"></span></p>
@@ -689,7 +689,7 @@ This command is associated with the a proposed solution to update withdrawal cre
 <h2 id="optional-arguments-3"><a class="header" href="#optional-arguments-3">Optional Arguments</a></h2>
 <ul>
 <li>
-<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'holesky', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
+<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
 </li>
 <li>
 <p><strong><code>--keystore</code></strong>: The keystore file associating with the validator you wish to sign with. This keystore file should match the provided validator index.</p>
@@ -724,7 +724,7 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <h2 id="optional-arguments-4"><a class="header" href="#optional-arguments-4">Optional Arguments</a></h2>
 <ul>
 <li>
-<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'holesky', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
+<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
 </li>
 <li>
 <p><strong><code>--keystore</code></strong>: The keystore file associating with the validator you wish to exit.</p>
@@ -759,7 +759,7 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <h2 id="optional-arguments-5"><a class="header" href="#optional-arguments-5">Optional Arguments</a></h2>
 <ul>
 <li>
-<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'holesky', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
+<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
 </li>
 <li>
 <p><strong><code>--mnemonic</code></strong>: The mnemonic you used during key generation. <span class="warning"></span></p>
@@ -801,7 +801,7 @@ If you wish to create a validator with 0x00 credentials, you must use the <stron
 <h2 id="optional-arguments-6"><a class="header" href="#optional-arguments-6">Optional Arguments</a></h2>
 <ul>
 <li>
-<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'holesky', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
+<p><strong><code>--chain</code></strong>: The chain to use for generating the deposit data. Options are: 'mainnet', 'sepolia', 'hoodi', 'ephemery', 'gnosis', or 'chiado'.</p>
 </li>
 <li>
 <p><strong><code>--keystore</code></strong>: The keystore file associating with the validator you wish to deposit to.</p>
@@ -890,8 +890,8 @@ Including sensitive arguments when executing CLI commands poses a security risk,
     "deposit_message_root":"f9bdb1e800b8f9f0db98c77271745e3c6140f18bf420543bda84fa92c393ddc7",
     "deposit_data_root":"7cda08cd57c303f8af720b10a0852408bc31e015cb552f0029fc1024b8a1d615",
     "fork_version":"01017000",
-    "network_name":"holesky",
-    "deposit_cli_version":"2.7.0"
+    "network_name":"hoodi",
+    "deposit_cli_version":"1.2.2"
   },
   {
     "pubkey":"86ee0b826d7d5262324ace2fba4ed5f09a1cbef80552e3d945279f19bc4118a98e9a93257eb4c7731ccc10c19835d24f",
@@ -901,8 +901,8 @@ Including sensitive arguments when executing CLI commands poses a security risk,
     "deposit_message_root":"99dbb2392fef277c15e710ca0ead058c024adce15f9e8f369bbaea939c0009ed",
     "deposit_data_root":"0fcb16fdb536b00a037a3ccde67187d21abfb726d677e40709ae6910d44377a5",
     "fork_version":"01017000",
-    "network_name":"holesky",
-    "deposit_cli_version":"2.7.0"
+    "network_name":"hoodi",
+    "deposit_cli_version":"1.2.2"
   }
 ]
 </code></pre>
@@ -921,9 +921,9 @@ Including sensitive arguments when executing CLI commands poses a security risk,
     },
     "signature":"0xa1e47e6b1fdf4dd5f1dd3ddb3d47d2dcf446d096d49d90afef06a38dc02fba6b4d16d1dc1184c791e54666dabb8bdedd0660bc9bb3bc5d0e592eaf5f0c978cca4fcafe4037672940d6f1a44d2a33503c30cb98ca695979b1de9e321a8a694bc2",
     "metadata":{
-      "network_name":"holesky",
+      "network_name":"hoodi",
       "genesis_validators_root":"0x9143aa7c615a7f7115e2b6aac319c03529df8242ae705fba9df39b79c59fa8b1",
-      "deposit_cli_version":"0.1.4-dev"
+      "deposit_cli_version":"1.2.2"
     }
   }
 ]
@@ -962,14 +962,14 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <p>Ensure you have the following software installed on your system:</p>
 <ul>
 <li><strong>Git</strong>: Version control system to clone the repository. <a href="https://git-scm.com/downloads">Download Git</a></li>
-<li><strong>Python 3.9+</strong>: The programming language required to run the tool. <a href="https://www.python.org/downloads/">Download Python</a></li>
-<li><strong>pip</strong>: Package installer for Python, which is included with Python 3.9+.</li>
+<li><strong>Python 3.10+</strong>: The programming language required to run the tool. <a href="https://www.python.org/downloads/">Download Python</a></li>
+<li><strong>pip</strong>: Package installer for Python, which is included with Python 3.</li>
 </ul>
 <p>On Windows, you'll need:</p>
 <ul>
 <li><strong>Git for Windows</strong>: Version control system to clone the repository. Configure it to associate <code>.sh</code> files with <code>bash</code>. <a href="https://git-scm.com/download/win">Download GfW</a></li>
 <li><strong>Windows Terminal</strong>: Optional but recommended command line console. Configure GfW to install a Git Bash profile. <a href="https://apps.microsoft.com/detail/9n0dx20hk701">Download Windows Terminal</a></li>
-<li><strong>Python 3.9+</strong>: The programming language required to run the tool. <a href="https://apps.microsoft.com/detail/9ncvdn91xzqp">Download Python</a></li>
+<li><strong>Python 3.10+</strong>: The programming language required to run the tool. <a href="https://apps.microsoft.com/detail/9ncvdn91xzqp">Download Python</a></li>
 <li><strong>Visual Studio C++</strong>: The compiler required to build some of the dependencies of the tool. <a href="https://visualstudio.microsoft.com/vs/features/cplusplus/">Download VS C++</a></li>
 </ul>
 <h2 id="local-development-steps"><a class="header" href="#local-development-steps">Local Development Steps</a></h2>
@@ -1028,7 +1028,7 @@ python3 -m pytest tests
 <ol>
 <li>Make sure all the tests from the latest <a href="https://github.com/ethstaker/ethstaker-deposit-cli/actions/workflows/runner.yml">ci-runner workflow</a> on the latest commit of the main branch are completed. Make sure all tests are passing on all the supported platforms.</li>
 <li>Determine a new version number. Version numbers should adhere to <a href="https://semver.org/">Semantic Versioning</a>. For any official release, it should include a major, a minor and a patch identifier like <code>1.0.0</code>.</li>
-<li>Update <code>ethstaker_deposit/__init__.py</code>'s <code>__version__</code> variable with the new version number. Commit this change to the main branch of the main repository.</li>
+<li>Update <code>ethstaker_deposit/VERSION</code>'s content with the new version number. Commit this change to the main branch of the main repository.</li>
 <li>Add a tag to the main repository for this changed version commit above. The name of this tag should be a string starting with <code>v</code> concatenated with the version number. With git, the main repository cloned and the commit above being the head, it can look like this:</li>
 </ol>
 <pre><code class="language-console">git tag -a -m 'Version 1.0.0' v1.0.0
@@ -1040,7 +1040,7 @@ git push origin v1.0.0
 <li>If this is not a production release, check the <em>Set as a pre-release</em> checkbox.</li>
 <li>Click the <em>Publish release</em> button.</li>
 <li>Determine a new dev version number. You can try to guess the next version number to the best of your ability. This will always be subject to change. Add a <code>dev</code> identifier to the version number to clearly indicate this is a dev version number.</li>
-<li>Update <code>ethstaker_deposit/__init__.py</code>'s <code>__version__</code> variable with a new dev version number. Commit this change to the main branch.</li>
+<li>Update <code>ethstaker_deposit/VERSION</code>'s content with a new dev version number. Commit this change to the main branch.</li>
 </ol>
 <h2 id="release-notes-template"><a class="header" href="#release-notes-template">Release Notes Template</a></h2>
 <p>You can find the latest release notes template on https://github.com/ethstaker/ethstaker-deposit-cli/blob/main/.github/release_template.md .</p>
