@@ -1,5 +1,8 @@
 name: ci-runner
 run-name: ${{ github.actor }} is testing and measuring code quality
+concurrency:
+  group: ci-runner-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
   actions: read
@@ -114,7 +117,6 @@ jobs:
             coverage report ;
             echo \`\`\` ;
           } >> results/coverage-text-report
-          echo ${{ github.event.number }} > results/issue_number
       - name: Upload final coverage text report
         uses: actions/upload-artifact@v7
         with:

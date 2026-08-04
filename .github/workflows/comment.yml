@@ -1,6 +1,9 @@
 # Safely comment on the PR - https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/
 name: ci-comment
 run-name: ${{ github.actor }} is adding coverage report comment on PR
+concurrency:
+  group: ci-comment-${{ github.event.workflow_run.head_repository.full_name || github.repository }}-${{ github.event.workflow_run.head_branch || github.run_id }}
+  cancel-in-progress: true
 on:
   workflow_run:
     workflows: [ "ci-runner" ]
@@ -11,14 +14,15 @@ jobs:
   completed-coverage:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      actions: read
     if: >
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success'
     outputs:
-      coverage: ${{ steps.output.outputs.coverage }}
+      coverage: ${{ steps.coverage.outputs.coverage }}
     steps:
       - name: Get coverage job success
+        id: coverage
         uses: actions/github-script@v9
         env:
           WORKFLOW_RUN_ID: '${{ github.event.workflow_run.id }}'
@@ -27,34 +31,38 @@ jobs:
           script: |
             const { WORKFLOW_RUN_ID } = process.env;
 
-            core.exportVariable('COVERAGE', 'unknown');
+            let coverage = 'unknown';
 
-            const { data: allJobs } = await github.rest.actions.listJobsForWorkflowRun({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: WORKFLOW_RUN_ID,
-            });
+            const allJobs = await github.paginate(
+              github.rest.actions.listJobsForWorkflowRun,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: WORKFLOW_RUN_ID,
+                per_page: 100,
+              }
+            );
 
-            allJobs.jobs.forEach((job) => {
+            for (const job of allJobs) {
               if (
                 job.name === 'coverage-combine' &&
                 job.status == 'completed' &&
                 job.conclusion == 'success'
               ) {
-                core.exportVariable('COVERAGE', 'completed');
+                coverage = 'completed';
+                break;
               }
-            });
-      - name: Output coverage status
-        id: output
-        run: echo "coverage=${COVERAGE}" >> "$GITHUB_OUTPUT"
+            }
+
+            core.setOutput('coverage', coverage);
   comment:
     needs: completed-coverage
     # Runs only if we have a completed coverage job from the ci-runner workflow
     if: ${{ needs.completed-coverage.outputs.coverage == 'completed' }}
     permissions:
+      actions: read
       issues: write
-      contents: write
-      pull-requests: write
+      pull-requests: read
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
@@ -69,16 +77,58 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            var fs = require('fs');
-            const issueNumberPath = './issue_number'
-            if (!fs.existsSync(issueNumberPath)) {
-              console.log("Coverage artifacts were not downloaded, succeeding early");
-              return;
+            const fs = require('fs');
+            const workflowRun = context.payload.workflow_run;
+            const headRepository = workflowRun.head_repository?.full_name;
+            const headBranch = workflowRun.head_branch;
+            if (!headRepository || !headBranch) {
+              throw new Error('Could not determine the workflow run head repository and branch');
             }
-            var issueNumber = Number(fs.readFileSync(issueNumberPath));
-            await github.rest.issues.createComment({
+
+            const [headOwner] = headRepository.split('/');
+            const { data: pullRequests } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'all',
+              head: `${headOwner}:${headBranch}`,
+              per_page: 100,
+            });
+            if (pullRequests.length === 0) {
+              throw new Error(`Could not find a pull request for ${headRepository}:${headBranch}`);
+            }
+
+            const issueNumber = pullRequests[0].number;
+            const marker = '<!-- ethstaker-coverage-report -->';
+            const reportPath = './coverage-text-report';
+            if (!fs.existsSync(reportPath)) {
+              throw new Error('Coverage report artifact was not downloaded');
+            }
+
+            const body = `${marker}\n${fs.readFileSync(reportPath).toString()}`;
+            const comments = await github.paginate(github.rest.issues.listComments, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issueNumber,
-              body: fs.readFileSync('./coverage-text-report').toString()
+              per_page: 100,
             });
+            const existingComment = comments.find(
+              (comment) =>
+                comment.user?.login === 'github-actions[bot]' &&
+                comment.body?.includes(marker)
+            );
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body,
+              });
+            }
