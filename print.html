@@ -177,7 +177,12 @@
                         <h1 id="welcome-to-the-ethstaker-deposit-cli"><a class="header" href="#welcome-to-the-ethstaker-deposit-cli">Welcome to the <code>ethstaker-deposit-cli</code>!</a></h1>
 <p>The <a href="https://github.com/ethstaker/ethstaker-deposit-cli"><code>ethstaker-deposit-cli</code></a> is a command-line tool used to generate validator keys forked from Ethereum's <a href="https://github.com/ethereum/staking-deposit-cli"><code>staking-deposit-cli</code></a> with more functionality and improved performance.</p>
 <h2 id="security-reports"><a class="header" href="#security-reports">Security reports</a></h2>
-<p>You can read <a href="https://github.com/trailofbits/publications/blob/master/reviews/2024-12-ethstaker-depositcli-securityreview.pdf">the security assessment report by Trail of Bits</a> that was completed on December 13, 2024. You can find the security assessment report by Trail of Bits of the original staking-deposit-cli project <a href="https://github.com/trailofbits/publications/blob/master/reviews/ETH2DepositCLI.pdf">here</a>.</p>
+<p>The project has been through various security audits over the years. You can find them here:</p>
+<ul>
+<li>March 4, 2026: <a href="https://github.com/trailofbits/publications/blob/master/reviews/2026-03-ethstaker-deposit-cli-securityreview.pdf">Security assessment report by Trail of Bits</a></li>
+<li>December 13, 2024: <a href="https://github.com/trailofbits/publications/blob/master/reviews/2024-12-ethstaker-depositcli-securityreview.pdf">Security assessment report by Trail of Bits</a></li>
+<li>September 4, 2020: <a href="https://github.com/trailofbits/publications/blob/master/reviews/ETH2DepositCLI.pdf">Security assessment report by Trail of Bits</a> of the original staking-deposit-cli project</li>
+</ul>
 <h2 id="important-concerns"><a class="header" href="#important-concerns">Important Concerns</a></h2>
 <p>This tool generates and/or utilizes mnemonics and validator key material. Both are highly sensitive materials, and their exposure could lead to the loss or theft of funds, as well as the compromise of privacy. Users must take appropriate measures to secure this information.</p>
 <p>Here are some core recommendations:</p>
@@ -284,7 +289,7 @@ Please be sure that your ETH is deposited only to this deposit contract address,
 <p>This guide will walk you through the steps to download and set up the <code>ethstaker-deposit-cli</code> for your operating system.</p>
 <p><strong>Build requirements</strong></p>
 <ul>
-<li><a href="https://www.python.org/about/gettingstarted/">Python <strong>3.10+</strong></a></li>
+<li><a href="https://www.python.org/about/gettingstarted/">A Python version supported by the current release</a></li>
 <li><a href="https://pip.pypa.io/en/stable/installing/">pip3</a></li>
 </ul>
 <h2 id="step-1-download-the-latest-release"><a class="header" href="#step-1-download-the-latest-release">Step 1: Download the Latest Release</a></h2>
@@ -360,14 +365,14 @@ Please be sure that your ETH is deposited only to this deposit contract address,
 <ol>
 <li>
 <p><strong>Python version checking</strong></p>
-<p>Ensure you are using Python version &gt;= Python3.10:</p>
+<p>Ensure you are using a Python version supported by the current release:</p>
 <pre><code class="language-sh">python3 -V
 </code></pre>
 </li>
 <li>
 <p><strong>Installation</strong></p>
 <p>Install the dependencies:</p>
-<pre><code class="language-sh">pip3 install -r requirements.txt
+<pre><code class="language-sh">python3 -m pip install -r requirements.txt
 </code></pre>
 <p>Or use the helper script:</p>
 <pre><code class="language-sh">./deposit.sh install
@@ -392,7 +397,7 @@ Please be sure that your ETH is deposited only to this deposit contract address,
 <ol>
 <li>
 <p><strong>Python version checking</strong></p>
-<p>Ensure you are using Python version &gt;= Python3.10:</p>
+<p>Ensure you are using a Python version supported by the current release:</p>
 <pre><code class="language-sh">python3 -V
 </code></pre>
 </li>
@@ -406,7 +411,7 @@ Please be sure that your ETH is deposited only to this deposit contract address,
 source .venv/bin/activate
 </code></pre>
 <p>and install the dependencies:</p>
-<pre><code class="language-sh">pip3 install -r requirements.txt
+<pre><code class="language-sh">python3 -m pip install -r requirements.txt
 </code></pre>
 </li>
 <li>
@@ -468,21 +473,23 @@ source .venv/bin/activate
 </ol>
 <hr />
 <h2 id="for-windows-users"><a class="header" href="#for-windows-users">For Windows users</a></h2>
+<p>The helper script requires Bash. Use it from Git Bash as <code>./deposit.sh</code>; from
+Command Prompt or PowerShell, use the direct Python commands in Option 2.</p>
 <h3 id="option-1-build-deposit-cli-with-native-python-1"><a class="header" href="#option-1-build-deposit-cli-with-native-python-1">Option 1. Build <code>deposit-cli</code> with native Python</a></h3>
 <ol>
 <li>
 <p><strong>Python version checking</strong></p>
-<p>Ensure you are using Python version &gt;= Python12 (Assume that you've installed Python 3 as the main Python):</p>
+<p>Ensure you are using a Python version supported by the current release (assume Python 3 is your main Python):</p>
 <pre><code class="language-sh">python -V
 </code></pre>
 </li>
 <li>
 <p><strong>Installation</strong></p>
 <p>Install the dependencies:</p>
-<pre><code class="language-sh">pip3 install -r requirements.txt
+<pre><code class="language-sh">python -m pip install -r requirements.txt
 </code></pre>
 <p>Or use the helper script:</p>
-<pre><code class="language-sh">sh deposit.sh install
+<pre><code class="language-sh">./deposit.sh install
 </code></pre>
 </li>
 <li>
@@ -504,7 +511,7 @@ source .venv/bin/activate
 <ol>
 <li>
 <p><strong>Python version checking</strong></p>
-<p>Ensure you are using Python version &gt;= Python3.10 (Assume that you've installed Python 3 as the main Python):</p>
+<p>Ensure you are using a Python version supported by the current release (assume Python 3 is your main Python):</p>
 <pre><code class="language-cmd">python -V
 </code></pre>
 </li>
@@ -515,7 +522,7 @@ source .venv/bin/activate
 .\.venv\Scripts\activate
 </code></pre>
 <p>and install the dependencies:</p>
-<pre><code class="language-cmd">pip3 install -r requirements.txt
+<pre><code class="language-cmd">python -m pip install -r requirements.txt
 </code></pre>
 </li>
 <li>
@@ -560,7 +567,7 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <p><strong><code>--compounding / --regular-withdrawal</code></strong>: Generates compounding validators with 0x02 withdrawal credentials for a 2048 ETH maximum effective balance or generate regular validators with 0x01 withdrawal credentials for a 32 ETH maximum effective balance. Use of this option requires a withdrawal address. This feature is only supported on networks that have undergone the Pectra fork. Defaults to regular withdrawal.</p>
 </li>
 <li>
-<p><strong><code>--amount</code></strong>: The amount to deposit to these validators in ether denomination. Must be at least 1 ether and can not have greater precision than 1 gwei. Use of this option requires compounding validators. Defaults to 32 ether.</p>
+<p><strong><code>--amount</code></strong>: The amount to deposit per validator in ether. Only applies to compounding validators (0x02 withdrawal credentials). Must be at least the chain's minimum deposit amount (1 ETH on mainnet) with no greater precision than 1 gwei. Defaults to the chain's minimum activation amount (32 ETH on mainnet).</p>
 </li>
 <li>
 <p><strong><code>--pbkdf2</code></strong>: Will use pbkdf2 key encryption instead of scrypt for generated keystore files as defined in <a href="https://eips.ethereum.org/EIPS/eip-2335#decryption-key">EIP-2335</a>. This can be a good alternative if you intend to work with a large number of keys, as it can improve performance. pbkdf2 encryption is, however, less secure than scrypt. You should only use this option if you understand the associated risks and have familiarity with encryption.</p>
@@ -573,13 +580,13 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 </li>
 </ul>
 <h2 id="output-files"><a class="header" href="#output-files">Output files</a></h2>
-<p>A successful call to this command will result in one or many <a href="keystore_file.html">keystore files</a> created, one per validator created, and one <a href="deposit_data_file.html">deposit data file</a> created. The amount for each deposit in the deposit data file should always be 32 Ethers (<code>32000000000</code> in GWEI) with this command.</p>
+<p>A successful call to this command will result in one or many <a href="keystore_file.html">keystore files</a> created, one per validator created, and one <a href="deposit_data_file.html">deposit data file</a> created. Non-compounding validators always deposit the chain's minimum activation amount (32 ETH on mainnet).</p>
 <h2 id="example-usage"><a class="header" href="#example-usage">Example Usage</a></h2>
 <pre><code class="language-sh">./deposit new-mnemonic
 </code></pre>
 <h2 id="note"><a class="header" href="#note">Note</a></h2>
 <p>The newly generated mnemonic <strong>must</strong> be written down, on a piece of paper or transferred to steel. The application will attempt to clear the clipboard when this command finishes. If the mnemonic is lost and the validator does not have a withdrawal address, funds <strong>cannot</strong> be recovered.</p>
-<p>To make a deposit for a different amount other than 32 ETH, you need to have an existing keystore file or create one by using either the above command or <strong><a href="existing_mnemonic.html">existing-mnemonic</a></strong>. Then, use the <strong><a href="partial_deposit.html">partial-deposit</a></strong> command to specify the desired amount for each validator.</p>
+<p>For non-compounding validators, a custom deposit amount requires an existing keystore file and the <strong><a href="partial_deposit.html">partial-deposit</a></strong> command. Compounding validators (0x02 withdrawal credentials) can set a custom deposit amount directly using <code>--amount</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="existing-mnemonic"><a class="header" href="#existing-mnemonic">existing-mnemonic</a></h1>
 <div class="warning">
 Including sensitive arguments when executing CLI commands poses a security risk, as these values can be accessible through disk and shell history. This exposure can allow other users, including admins and malicious actors, to gain access to sensitive information, putting your funds at risk.
@@ -616,7 +623,7 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <p><strong><code>--compounding / --regular-withdrawal</code></strong>: Generates compounding validators with 0x02 withdrawal credentials for a 2048 ETH maximum effective balance or generate regular validators with 0x01 withdrawal credentials for a 32 ETH maximum effective balance. Use of this option requires a withdrawal address. This feature is only supported on networks that have undergone the Pectra fork. Defaults to regular withdrawal.</p>
 </li>
 <li>
-<p><strong><code>--amount</code></strong>: The amount to deposit to these validators in ether denomination. Must be at least 1 ether and can not have greater precision than 1 gwei. Use of this option requires compounding validators. Defaults to 32 ether.</p>
+<p><strong><code>--amount</code></strong>: The amount to deposit per validator in ether. Only applies to compounding validators (0x02 withdrawal credentials). Must be at least the chain's minimum deposit amount (1 ETH on mainnet) with no greater precision than 1 gwei. Defaults to the chain's minimum activation amount (32 ETH on mainnet).</p>
 </li>
 <li>
 <p><strong><code>--pbkdf2</code></strong>: Will use pbkdf2 key derivation instead of scrypt for generated keystore files as defined in <a href="https://eips.ethereum.org/EIPS/eip-2335#decryption-key">EIP-2335</a>. This can be a good alternative if you intend to work with a large number of keys, as it can improve performance however it is less secure. You should only use this option if you understand the associated risks and have familiarity with encryption.</p>
@@ -629,12 +636,12 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 </li>
 </ul>
 <h2 id="output-files-1"><a class="header" href="#output-files-1">Output files</a></h2>
-<p>A successful call to this command will result in one or many <a href="keystore_file.html">keystore files</a> created, one per validator created, and one <a href="deposit_data_file.html">deposit data file</a> created. The amount for each deposit in the deposit data file should always be 32 Ethers (<code>32000000000</code> in GWEI) with this command.</p>
+<p>A successful call to this command will result in one or many <a href="keystore_file.html">keystore files</a> created, one per validator created, and one <a href="deposit_data_file.html">deposit data file</a> created. Non-compounding validators always deposit the chain's minimum activation amount (32 ETH on mainnet).</p>
 <h2 id="example-usage-1"><a class="header" href="#example-usage-1">Example Usage</a></h2>
 <pre><code class="language-sh">./deposit existing-mnemonic
 </code></pre>
 <h2 id="note-1"><a class="header" href="#note-1">Note</a></h2>
-<p>To make a deposit for a different amount other than 32 ETH, you need to have an existing keystore file or create one by using either the above command or <strong><a href="new_mnemonic.html">new-mnemonic</a></strong>. Then, use the <strong><a href="partial_deposit.html">partial-deposit</a></strong> command to specify the desired amount for each validator.</p>
+<p>For non-compounding validators, a custom deposit amount requires an existing keystore file and the <strong><a href="partial_deposit.html">partial-deposit</a></strong> command. Compounding validators (0x02 withdrawal credentials) can set a custom deposit amount directly using <code>--amount</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="generate-bls-to-execution-change"><a class="header" href="#generate-bls-to-execution-change">generate-bls-to-execution-change</a></h1>
 <div class="warning">
 Including sensitive arguments when executing CLI commands poses a security risk, as these values can be accessible through disk and shell history. This exposure can allow other users, including admins and malicious actors, to gain access to sensitive information, putting your funds at risk.
@@ -810,7 +817,7 @@ If you wish to create a validator with 0x00 credentials, you must use the <stron
 <p><strong><code>--keystore_password</code></strong>: The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. <span class="warning"></span></p>
 </li>
 <li>
-<p><strong><code>--amount</code></strong>: The amount you wish to deposit in ether. Must be at least 1 and can not have precision beyond 1 gwei. Defaults to 32 ether.</p>
+<p><strong><code>--amount</code></strong>: The amount to deposit per validator in ether. Must be at least the chain's minimum deposit amount (1 ETH on mainnet) with no greater precision than 1 gwei. Defaults to the chain's minimum activation amount (32 ETH on mainnet).</p>
 </li>
 <li>
 <p><strong><code>--withdrawal_address</code></strong>: The withdrawal address of the existing validator or the desired withdrawal address.</p>
@@ -944,7 +951,7 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="signed-exit-transaction-file"><a class="header" href="#signed-exit-transaction-file">Signed Exit Transaction file</a></h1>
 <p>A signed exit transaction file is created when calling the <strong><a href="exit_transaction_keystore.html">exit-transaction-keystore</a></strong> or the <strong><a href="exit_transaction_mnemonic.html">exit-transaction-mnemonic</a></strong> command.</p>
-<p>The signed exit transaction file is a JSON file. It contains a single message to exit a validator. The format of the signed exit transaction file is loosly based on the input for the POST <code>/eth/v1/beacon/pool/voluntary_exits</code> <a href="https://ethereum.github.io/beacon-APIs/#/Beacon/submitPoolVoluntaryExit">API endpoint</a> as defined by <a href="https://github.com/ethereum/beacon-APIs">the Ethereum Beacon APIs</a>. Part of this content is based on the <a href="https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#signedvoluntaryexit">SignedVoluntaryExit</a> signed envelope as defined in the <a href="https://github.com/ethereum/consensus-specs/">Ethereum Consensus Specifications</a>.</p>
+<p>The signed exit transaction file is a JSON file. It contains a single message to exit a validator. The format of the signed exit transaction file is loosely based on the input for the POST <code>/eth/v1/beacon/pool/voluntary_exits</code> <a href="https://ethereum.github.io/beacon-APIs/#/Beacon/submitPoolVoluntaryExit">API endpoint</a> as defined by <a href="https://github.com/ethereum/beacon-APIs">the Ethereum Beacon APIs</a>. Part of this content is based on the <a href="https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#signedvoluntaryexit">SignedVoluntaryExit</a> signed envelope as defined in the <a href="https://github.com/ethereum/consensus-specs/">Ethereum Consensus Specifications</a>.</p>
 <h2 id="broadcasting-1"><a class="header" href="#broadcasting-1">Broadcasting</a></h2>
 <p>If you have access to a beacon node client running on your target network, you can publish this message simply by calling the POST <code>/eth/v1/beacon/pool/voluntary_exits</code> <a href="https://ethereum.github.io/beacon-APIs/#/Beacon/submitPoolVoluntaryExit">API endpoint</a> and passing the content of the signed exit transaction file as the payload. You can also use <a href="https://beaconcha.in/tools/broadcast">the Beaconcha.in Broadcast Signed Messages tool</a> which might be easier for most users.</p>
 <h2 id="example-3"><a class="header" href="#example-3">Example</a></h2>
@@ -962,14 +969,14 @@ Including sensitive arguments when executing CLI commands poses a security risk,
 <p>Ensure you have the following software installed on your system:</p>
 <ul>
 <li><strong>Git</strong>: Version control system to clone the repository. <a href="https://git-scm.com/downloads">Download Git</a></li>
-<li><strong>Python 3.10+</strong>: The programming language required to run the tool. <a href="https://www.python.org/downloads/">Download Python</a></li>
+<li><strong>Supported Python version</strong>: The required version is declared in <code>pyproject.toml</code>. <a href="https://www.python.org/downloads/">Download Python</a></li>
 <li><strong>pip</strong>: Package installer for Python, which is included with Python 3.</li>
 </ul>
 <p>On Windows, you'll need:</p>
 <ul>
 <li><strong>Git for Windows</strong>: Version control system to clone the repository. Configure it to associate <code>.sh</code> files with <code>bash</code>. <a href="https://git-scm.com/download/win">Download GfW</a></li>
 <li><strong>Windows Terminal</strong>: Optional but recommended command line console. Configure GfW to install a Git Bash profile. <a href="https://apps.microsoft.com/detail/9n0dx20hk701">Download Windows Terminal</a></li>
-<li><strong>Python 3.10+</strong>: The programming language required to run the tool. <a href="https://apps.microsoft.com/detail/9ncvdn91xzqp">Download Python</a></li>
+<li><strong>Supported Python version</strong>: The required version is declared in <code>pyproject.toml</code>. <a href="https://apps.microsoft.com/detail/9ncvdn91xzqp">Download Python</a></li>
 <li><strong>Visual Studio C++</strong>: The compiler required to build some of the dependencies of the tool. <a href="https://visualstudio.microsoft.com/vs/features/cplusplus/">Download VS C++</a></li>
 </ul>
 <h2 id="local-development-steps"><a class="header" href="#local-development-steps">Local Development Steps</a></h2>
@@ -996,7 +1003,7 @@ source .venv/bin/activate
 </li>
 <li>
 <p><strong>Install Dependencies</strong></p>
-<pre><code class="language-sh">pip3 install -r requirements.txt
+<pre><code class="language-sh">python3 -m pip install -r requirements.txt
 </code></pre>
 </li>
 <li>
