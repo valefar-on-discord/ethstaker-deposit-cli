@@ -42,8 +42,6 @@ from ethstaker_deposit.utils.ssz import (
     compute_bls_to_execution_change_domain,
     compute_signing_root,
     BLSToExecutionChange,
-    BuilderDepositData,
-    BuilderDepositMessage,
     DepositData,
     DepositMessage,
     SignedBLSToExecutionChange,
@@ -54,8 +52,8 @@ from ethstaker_deposit.utils.file_handling import (
 
 
 class WithdrawalType(Enum):
-    EXECUTION_ADDRESS_WITHDRAWAL = 1
-    COMPOUNDING_WITHDRAWAL = 2
+    EXECUTION_ADDRESS_WITHDRAWAL = 0x01
+    COMPOUNDING_WITHDRAWAL = 0x02
     BUILDER_WITHDRAWAL = 0xB0
 
 
@@ -167,7 +165,7 @@ class Credential:
         return signed_deposit
 
     @property
-    def builder_deposit_message(self) -> BuilderDepositMessage:
+    def builder_deposit_message(self) -> DepositMessage:
         """
         Ref: https://github.com/ethereum/consensus-specs/blob/master/specs/gloas/beacon-chain.md#builderdepositrequest
         """
@@ -177,17 +175,17 @@ class Credential:
             raise ValidationError(
                 f"{self.amount / ETH2GWEI} ETH is below the {BUILDER_MIN_DEPOSIT / ETH2GWEI} ETH builder minimum."
             )
-        return BuilderDepositMessage(  # type: ignore[no-untyped-call]
+        return DepositMessage(  # type: ignore[no-untyped-call]
             pubkey=self.signing_pk,
             withdrawal_credentials=self.withdrawal_credentials,
             amount=self.amount,
         )
 
     @property
-    def signed_builder_deposit(self) -> BuilderDepositData:
+    def signed_builder_deposit(self) -> DepositData:
         domain = compute_builder_deposit_domain(fork_version=self.chain_setting.GENESIS_FORK_VERSION)
         signing_root = compute_signing_root(self.builder_deposit_message, domain)
-        signed_builder_deposit = BuilderDepositData(  # type: ignore[no-untyped-call]
+        signed_builder_deposit = DepositData(  # type: ignore[no-untyped-call]
             **self.builder_deposit_message.as_dict(),  # type: ignore[no-untyped-call]
             signature=bls.Sign(self.signing_sk, signing_root)
         )
@@ -358,7 +356,7 @@ class CredentialList:
                       mnemonic: str,
                       mnemonic_password: str,
                       num_keys: int,
-                      amounts: list[float],
+                      amounts: Sequence[float],
                       chain_setting: BaseChainSetting,
                       start_index: int,
                       hex_withdrawal_address: HexAddress,

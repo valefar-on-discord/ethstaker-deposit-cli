@@ -144,16 +144,13 @@ def generate_builder_keys_arguments_decorator(function: Callable[..., Any]) -> C
 @click.pass_context
 def generate_builder_keys(ctx: click.Context, builder_start_index: int,
                           num_builders: int, folder: str, chain: str, keystore_password: str,
-                          execution_address: HexAddress, builder_amount: float, pbkdf2: bool,
+                          execution_address: HexAddress, builder_amount: int, pbkdf2: bool,
                           devnet_chain_setting: BaseChainSetting | None, **kwargs: Any) -> None:
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
 
-    # Get chain setting
     chain_setting = devnet_chain_setting if devnet_chain_setting is not None else get_chain_setting(chain)
 
-    # `builder_amount` is already gwei-denominated by validate_builder_deposit_amount
-    # No chain multiplier is used here as implementations by other chains is unknown
     amounts = [builder_amount] * num_builders
     folder = os.path.join(folder, DEFAULT_BUILDER_KEYS_FOLDER_NAME)
 

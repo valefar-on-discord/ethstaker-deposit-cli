@@ -6,16 +6,17 @@ from ethstaker_deposit.utils.file_handling import (
 )
 
 
-def export_deposit_data_json(folder: str, timestamp: float, deposit_data: list[dict[str, bytes]]) -> str:
-    file_folder = os.path.join(folder, f'deposit_data-{int(timestamp)}.json')
+def _export_json(folder: str, timestamp: float, prefix: str, data: list[dict[str, bytes]]) -> str:
+    file_folder = os.path.join(folder, f'{prefix}-{int(timestamp)}.json')
     with open(file_folder, 'w', encoding='utf-8', opener=sensitive_opener) as f:
-        json.dump(deposit_data, f, default=lambda x: x.hex())
+        json.dump(data, f, default=lambda x: x.hex())
     return file_folder
+
+
+def export_deposit_data_json(folder: str, timestamp: float, deposit_data: list[dict[str, bytes]]) -> str:
+    return _export_json(folder, timestamp, 'deposit_data', deposit_data)
 
 
 def export_builder_deposit_data_json(folder: str, timestamp: float,
                                      builder_deposit_data: list[dict[str, bytes]]) -> str:
-    file_folder = os.path.join(folder, f'builder_deposit_data-{int(timestamp)}.json')
-    with open(file_folder, 'w', encoding='utf-8', opener=sensitive_opener) as f:
-        json.dump(builder_deposit_data, f, default=lambda x: x.hex())
-    return file_folder
+    return _export_json(folder, timestamp, 'builder_deposit_data', builder_deposit_data)

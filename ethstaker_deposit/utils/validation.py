@@ -25,8 +25,6 @@ from ethstaker_deposit.utils.intl import load_text
 from ethstaker_deposit.utils.ssz import (
     BLSToExecutionChange,
     BLSToExecutionChangeKeystore,
-    BuilderDepositData,
-    BuilderDepositMessage,
     DepositData,
     DepositMessage,
     SignedBLSToExecutionChangeKeystore,
@@ -80,6 +78,12 @@ def verify_deposit_data_json(filefolder: str, credentials: Sequence[Credential],
     with open(filefolder, encoding='utf-8') as f:
         deposit_json = json.load(f)
 
+    if len(deposit_json) != len(credentials):
+        raise ValidationError(
+            f"Number of deposits ({len(deposit_json)}) doesn't match "
+            f"the number of credentials ({len(credentials)})."
+        )
+
     with click.progressbar(length=len(deposit_json),
                            label=load_text(['msg_deposit_verification']),
                            show_percent=False, show_pos=True) as bar:
@@ -94,7 +98,7 @@ def verify_deposit_data_json(filefolder: str, credentials: Sequence[Credential],
 
 
 def validate_deposit(deposit_data_dict: dict[str, Any], chain_setting: BaseChainSetting,
-                     credential: Credential = None) -> bool:
+                     credential: Credential | None = None) -> bool:
     '''
     Checks whether a deposit is valid based on the staking deposit rules.
     https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#deposits
@@ -166,6 +170,12 @@ def verify_builder_deposit_data_json(filefolder: str, credentials: Sequence[Cred
     with open(filefolder, encoding='utf-8') as f:
         deposit_json = json.load(f)
 
+    if len(deposit_json) != len(credentials):
+        raise ValidationError(
+            f"Number of builder deposits ({len(deposit_json)}) doesn't match "
+            f"the number of credentials ({len(credentials)})."
+        )
+
     with click.progressbar(length=len(deposit_json),
                            label=load_text(['msg_deposit_verification']),
                            show_percent=False, show_pos=True) as bar:
@@ -178,7 +188,7 @@ def verify_builder_deposit_data_json(filefolder: str, credentials: Sequence[Cred
     return all_valid_deposits
 
 
-def validate_builder_deposit(builder_deposit_data_dict: dict[str, Any], credential: Credential = None) -> bool:
+def validate_builder_deposit(builder_deposit_data_dict: dict[str, Any], credential: Credential | None = None) -> bool:
     '''
     Checks whether a builder deposit is valid, per EIP-8282:
     https://github.com/ethereum/consensus-specs/blob/master/specs/gloas/beacon-chain.md
@@ -218,7 +228,7 @@ def validate_builder_deposit(builder_deposit_data_dict: dict[str, Any], credenti
         return False
 
     # Verify deposit signature && pubkey
-    builder_deposit_message = BuilderDepositMessage(  # type: ignore[no-untyped-call]
+    builder_deposit_message = DepositMessage(  # type: ignore[no-untyped-call]
         pubkey=pubkey,
         withdrawal_credentials=withdrawal_credentials,
         amount=amount,
@@ -232,7 +242,7 @@ def validate_builder_deposit(builder_deposit_data_dict: dict[str, Any], credenti
     if not bls.Verify(pubkey, signing_root, signature):
         return False
 
-    builder_deposit_data = BuilderDepositData(  # type: ignore[no-untyped-call]
+    builder_deposit_data = DepositData(  # type: ignore[no-untyped-call]
         pubkey=pubkey,
         withdrawal_credentials=withdrawal_credentials,
         amount=amount,

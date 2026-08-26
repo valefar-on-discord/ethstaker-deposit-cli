@@ -129,6 +129,7 @@ def compute_signing_root(ssz_object: Serializable, domain: bytes) -> bytes:
 class DepositMessage(Serializable):
     """
     Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#depositmessage
+    https://github.com/ethereum/consensus-specs/blob/master/specs/gloas/beacon-chain.md#builderdepositmessage
     """
     fields = [
         ('pubkey', bytes48),
@@ -140,29 +141,7 @@ class DepositMessage(Serializable):
 class DepositData(Serializable):
     """
     Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#depositdata
-    """
-    fields = [
-        ('pubkey', bytes48),
-        ('withdrawal_credentials', bytes32),
-        ('amount', uint64),
-        ('signature', bytes96)
-    ]
-
-
-class BuilderDepositMessage(Serializable):
-    """
-    Ref: https://github.com/ethereum/consensus-specs/blob/master/specs/gloas/beacon-chain.md#builderdepositmessage
-    """
-    fields = [
-        ('pubkey', bytes48),
-        ('withdrawal_credentials', bytes32),
-        ('amount', uint64),
-    ]
-
-
-class BuilderDepositData(Serializable):
-    """
-    Ref: https://github.com/ethereum/consensus-specs/blob/master/specs/gloas/beacon-chain.md#builderdepositrequest
+    https://github.com/ethereum/consensus-specs/blob/master/specs/gloas/beacon-chain.md#builderdepositrequest
     """
     fields = [
         ('pubkey', bytes48),
