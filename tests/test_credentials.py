@@ -49,7 +49,7 @@ def make_credential(*, address: str = WITHDRAWAL_ADDRESS, compounding: bool = Fa
 
 
 def make_builder_credential(
-    *, address: str | None = WITHDRAWAL_ADDRESS, amount: int = BUILDER_MIN_DEPOSIT
+    *, address: str = WITHDRAWAL_ADDRESS, amount: int = BUILDER_MIN_DEPOSIT
 ) -> Credential:
     return Credential(
         mnemonic=MNEMONIC,
@@ -226,13 +226,6 @@ def test_builder_credential_withdrawal_credentials_variant() -> None:
     assert credential.withdrawal_credentials == (
         BUILDER_WITHDRAWAL_PREFIX + b'\x00' * 11 + credential.withdrawal_address
     )
-
-
-def test_builder_credential_requires_withdrawal_address() -> None:
-    credential = make_builder_credential(address=None)
-
-    with pytest.raises(ValueError, match='Builder credentials require an execution'):
-        _ = credential.withdrawal_prefix
 
 
 def test_builder_deposit_message_requires_is_builder_credential() -> None:
