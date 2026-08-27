@@ -103,7 +103,8 @@ def generate_builder_keys_arguments_decorator(function: Callable[..., Any]) -> C
                                   func='generate_builder_keys_arguments_decorator'),
                 prompt_if=prompt_if_none,
             ),
-            help=lambda: load_text(['arg_withdrawal_address', 'help'], func='generate_builder_keys_arguments_decorator'),
+            help=lambda: load_text(['arg_withdrawal_address', 'help'],
+                                    func='generate_builder_keys_arguments_decorator'),
             param_decls=['--withdrawal_address'],
             prompt=False,  # the callback handles the prompt
         ),
