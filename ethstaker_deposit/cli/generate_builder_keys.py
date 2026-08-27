@@ -95,16 +95,16 @@ def generate_builder_keys_arguments_decorator(function: Callable[..., Any]) -> C
         jit_option(
             callback=captive_prompt_callback(
                 lambda address, _: validate_withdrawal_address(None, None, address, require=True),
-                lambda: load_text(['arg_execution_address', 'prompt'],
+                lambda: load_text(['arg_withdrawal_address', 'prompt'],
                                   func='generate_builder_keys_arguments_decorator'),
-                lambda: load_text(['arg_execution_address', 'confirm'],
+                lambda: load_text(['arg_withdrawal_address', 'confirm'],
                                   func='generate_builder_keys_arguments_decorator'),
-                lambda: load_text(['arg_execution_address', 'mismatch'],
+                lambda: load_text(['arg_withdrawal_address', 'mismatch'],
                                   func='generate_builder_keys_arguments_decorator'),
                 prompt_if=prompt_if_none,
             ),
-            help=lambda: load_text(['arg_execution_address', 'help'], func='generate_builder_keys_arguments_decorator'),
-            param_decls=['--execution_address'],
+            help=lambda: load_text(['arg_withdrawal_address', 'help'], func='generate_builder_keys_arguments_decorator'),
+            param_decls=['--withdrawal_address'],
             prompt=False,  # the callback handles the prompt
         ),
         jit_option(
@@ -144,7 +144,7 @@ def generate_builder_keys_arguments_decorator(function: Callable[..., Any]) -> C
 @click.pass_context
 def generate_builder_keys(ctx: click.Context, builder_start_index: int,
                           num_builders: int, folder: str, chain: str, keystore_password: str,
-                          execution_address: HexAddress, builder_amount: int, pbkdf2: bool,
+                          withdrawal_address: HexAddress, builder_amount: int, pbkdf2: bool,
                           devnet_chain_setting: BaseChainSetting | None, **kwargs: Any) -> None:
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
@@ -166,7 +166,7 @@ def generate_builder_keys(ctx: click.Context, builder_start_index: int,
         amounts=amounts,
         chain_setting=chain_setting,
         start_index=builder_start_index,
-        hex_withdrawal_address=execution_address,
+        hex_withdrawal_address=withdrawal_address,
         use_pbkdf2=pbkdf2,
         is_builder=True,
     )

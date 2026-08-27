@@ -17,10 +17,10 @@
             "confirm": "Repeat your keystore password for confirmation",
             "mismatch": "Error: the two entered values do not match. Please type again."
         },
-        "arg_execution_address": {
-            "help": "The Ethereum address that will be used as the builder's execution (withdrawal) address. It typically starts with '0x' followed by 40 hexadecimal characters. Please make sure you have full control over the address you choose here. This is required for builders: unlike validators, there is no BLS-only withdrawal type, and this address is also the sole authorization for a future builder exit.",
-            "prompt": "Please enter the execution address for this builder. This is required, and CANNOT be changed once set on chain.",
-            "confirm": "Repeat your execution address for confirmation.",
+        "arg_withdrawal_address": {
+            "help": "The Ethereum address that will be used as the builder's withdrawal address. It typically starts with '0x' followed by 40 hexadecimal characters. Please make sure you have full control over the address you choose here. This is required for builders: unlike validators, there is no BLS-only withdrawal type, and this address is also the sole authorization for a future builder exit.",
+            "prompt": "Please enter the withdrawal address for this builder. This is required, and CANNOT be changed once set on chain.",
+            "confirm": "Repeat your withdrawal address for confirmation.",
             "mismatch": "Error: the two entered values do not match. Please type again."
         },
         "arg_builder_amount": {
