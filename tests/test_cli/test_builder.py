@@ -30,7 +30,7 @@ def test_builder_new_mnemonic(monkeypatch) -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
-    execution_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
+    withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
     inputs = [
         'english',  # top-level CLI language
         'no',  # no existing mnemonic -> generate a new one
@@ -38,7 +38,7 @@ def test_builder_new_mnemonic(monkeypatch) -> None:
         '1',  # num_builders
         'mainnet',  # chain
         'MyPasswordIs', 'MyPasswordIs',  # keystore password + confirm
-        execution_address, execution_address,  # execution address + confirm
+        withdrawal_address, withdrawal_address,  # withdrawal address + confirm
         '1',  # builder_amount
         'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
     ]
@@ -62,7 +62,7 @@ def test_builder_new_mnemonic(monkeypatch) -> None:
     for deposit in deposits_dict:
         withdrawal_credentials = bytes.fromhex(deposit['withdrawal_credentials'])
         assert withdrawal_credentials == (
-            BUILDER_WITHDRAWAL_PREFIX + b'\x00' * 11 + decode_hex(execution_address)
+            BUILDER_WITHDRAWAL_PREFIX + b'\x00' * 11 + decode_hex(withdrawal_address)
         )
         assert deposit['amount'] == ETH2GWEI
 
@@ -90,7 +90,7 @@ def test_builder_existing_mnemonic_via_confirm() -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
-    execution_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
+    withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
     inputs = [
         'english',  # top-level CLI language
         'yes',  # has an existing mnemonic
@@ -99,7 +99,7 @@ def test_builder_existing_mnemonic_via_confirm() -> None:
         '2',  # num_builders
         'mainnet',  # chain
         'MyPasswordIs', 'MyPasswordIs',
-        execution_address, execution_address,
+        withdrawal_address, withdrawal_address,
         '1',  # builder_amount
     ]
     data = '\n'.join(inputs)
@@ -136,7 +136,7 @@ def test_builder_existing_mnemonic_cli_flag_with_password_confirmation() -> None
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
-    execution_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
+    withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
     inputs = [
         'english',  # top-level CLI language
         'TREZOR',  # repeat the --mnemonic_password value for confirmation
@@ -144,7 +144,7 @@ def test_builder_existing_mnemonic_cli_flag_with_password_confirmation() -> None
         '1',  # num_builders
         'mainnet',  # chain
         'MyPasswordIs', 'MyPasswordIs',
-        execution_address, execution_address,
+        withdrawal_address, withdrawal_address,
         '1',  # builder_amount
     ]
     data = '\n'.join(inputs)
@@ -213,7 +213,7 @@ def test_builder_non_interactive() -> None:
         '--num_builders', '1',
         '--chain', 'mainnet',
         '--keystore_password', 'MyPasswordIs',
-        '--execution_address', '0x00000000219ab540356cBB839Cbe05303d7705Fa',
+        '--withdrawal_address', '0x00000000219ab540356cBB839Cbe05303d7705Fa',
         '--builder_amount', '1',
         '--folder', my_folder_path,
     ]
@@ -244,7 +244,7 @@ def test_builder_amount_below_minimum_rejected() -> None:
         '--num_builders', '1',
         '--chain', 'mainnet',
         '--keystore_password', 'MyPasswordIs',
-        '--execution_address', '0x00000000219ab540356cBB839Cbe05303d7705Fa',
+        '--withdrawal_address', '0x00000000219ab540356cBB839Cbe05303d7705Fa',
         '--builder_amount', '0.5',
         '--folder', my_folder_path,
     ]
@@ -275,7 +275,7 @@ def test_builder_amount_has_no_upper_bound(builder_amount: str) -> None:
         '--num_builders', '1',
         '--chain', 'mainnet',
         '--keystore_password', 'MyPasswordIs',
-        '--execution_address', '0x00000000219ab540356cBB839Cbe05303d7705Fa',
+        '--withdrawal_address', '0x00000000219ab540356cBB839Cbe05303d7705Fa',
         '--builder_amount', builder_amount,
         '--folder', my_folder_path,
     ]
@@ -311,7 +311,7 @@ def test_builder_gnosis_chain_amount_is_not_multiplied() -> None:
         '--num_builders', '1',
         '--chain', 'gnosis',
         '--keystore_password', 'MyPasswordIs',
-        '--execution_address', '0x00000000219ab540356cBB839Cbe05303d7705Fa',
+        '--withdrawal_address', '0x00000000219ab540356cBB839Cbe05303d7705Fa',
         '--builder_amount', '1',
         '--folder', my_folder_path,
     ]
@@ -344,13 +344,13 @@ def test_builder_custom_devnet_chain() -> None:
     devnet_chain_setting = json.dumps(devnet_chain)
 
     runner = CliRunner()
-    execution_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
+    withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
     inputs = [
         'english',
         '0', '0',  # builder_start_index + confirm
         '1',  # num_builders
         'MyPasswordIs', 'MyPasswordIs',
-        execution_address, execution_address,
+        withdrawal_address, withdrawal_address,
         '1',  # builder_amount
     ]
     data = '\n'.join(inputs)
@@ -371,7 +371,7 @@ def test_builder_custom_devnet_chain() -> None:
     clean_builder_folder(my_folder_path)
 
 
-def test_builder_execution_address_bad_checksum() -> None:
+def test_builder_withdrawal_address_bad_checksum() -> None:
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
     clean_builder_folder(my_folder_path)
     if not os.path.exists(my_folder_path):
@@ -380,8 +380,8 @@ def test_builder_execution_address_bad_checksum() -> None:
     runner = CliRunner()
 
     # NOTE: final 'A' needed to be an 'a'
-    wrong_execution_address = '0x00000000219ab540356cBB839Cbe05303d7705FA'
-    correct_execution_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
+    wrong_withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705FA'
+    correct_withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
 
     inputs = [
         'english',
@@ -389,7 +389,7 @@ def test_builder_execution_address_bad_checksum() -> None:
         '1',
         'mainnet',
         'MyPasswordIs', 'MyPasswordIs',
-        wrong_execution_address, correct_execution_address, correct_execution_address,
+        wrong_withdrawal_address, correct_withdrawal_address, correct_withdrawal_address,
         '1',
     ]
     data = '\n'.join(inputs)
@@ -410,14 +410,14 @@ def test_builder_execution_address_bad_checksum() -> None:
     for deposit in deposits_dict:
         withdrawal_credentials = bytes.fromhex(deposit['withdrawal_credentials'])
         assert withdrawal_credentials == (
-            BUILDER_WITHDRAWAL_PREFIX + b'\x00' * 11 + decode_hex(correct_execution_address)
+            BUILDER_WITHDRAWAL_PREFIX + b'\x00' * 11 + decode_hex(correct_withdrawal_address)
         )
 
     clean_builder_folder(my_folder_path)
 
 
-def test_builder_missing_execution_address_non_interactive_fails() -> None:
-    # Builders have no BLS-only withdrawal type, so an execution address is always required.
+def test_builder_missing_withdrawal_address_non_interactive_fails() -> None:
+    # Builders have no BLS-only withdrawal type, so an withdrawal address is always required.
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
     clean_builder_folder(my_folder_path)
     if not os.path.exists(my_folder_path):
@@ -467,7 +467,7 @@ def test_pbkdf2_builder() -> None:
         '--num_builders', '1',
         '--chain', 'mainnet',
         '--keystore_password', 'MyPasswordIs',
-        '--execution_address', '0x00000000219ab540356cBB839Cbe05303d7705Fa',
+        '--withdrawal_address', '0x00000000219ab540356cBB839Cbe05303d7705Fa',
         '--builder_amount', '1',
     ]
 
